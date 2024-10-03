@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { NavLink } from 'react-router-dom';
 
 interface HamburgerMenuProps {
   header: React.ReactNode;
@@ -35,12 +36,12 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
-        <div className={`menu ${isOpen ? 'open' : ''}`}>
-          <a href="#" className="menu-item">Home</a>
-          <a href="#" className="menu-item">About</a>
-          <a href="#" className="menu-item">Services</a>
-          <a href="#" className="menu-item">Contact</a>
-        </div>
+        <nav className={`menu ${isOpen ? 'open' : ''}`}>
+          <NavLink to="/" className="menu-item" onClick={() => setIsOpen(false)}>Home</NavLink>
+          <NavLink to="/about" className="menu-item" onClick={() => setIsOpen(false)}>About</NavLink>
+          <NavLink to="/services" className="menu-item" onClick={() => setIsOpen(false)}>Services</NavLink>
+          <NavLink to="/contact" className="menu-item" onClick={() => setIsOpen(false)}>Contact</NavLink>
+        </nav>
       </div>
       <div className="header-section">{header}</div>
       <style>

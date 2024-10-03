@@ -1,11 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Paperclip, Image, FileText, Film, Music } from 'lucide-react';
+import './MessageInput.css';
 
-const MessageInput = () => {
+const OPENROUTER_API_KEY = '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';
+const YOUR_SITE_URL = 'https://your-site-url.com'; // Replace with your actual site URL
+const YOUR_SITE_NAME = 'Your Site Name'; // Replace with your actual site name
+
+const MessageInput = ({ onMessageSent }: { onMessageSent: (message: string) => void }) => {
   const [message, setMessage] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFileType, setSelectedFileType] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const textareaRef = useRef(null);
   const menuRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -20,7 +26,9 @@ const MessageInput = () => {
 
   const adjustTextareaHeight = () => {
     const textarea = textareaRef.current;
-    if (textarea) {
+
+   
+    if (textarea ) {
       textarea.style.height = 'auto';
       const newHeight = Math.min(Math.max(textarea.scrollHeight, 20), window.innerHeight * 0.3);
       textarea.style.height = `${newHeight}px`;
@@ -33,13 +41,57 @@ const MessageInput = () => {
     }
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (message.trim()) {
-      console.log('Sending message:', message);
-      setMessage('');
-    }
-    if (selectedFile) {
-      handleUpload();
+      setIsLoading(true);
+      try {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+            "HTTP-Referer": YOUR_SITE_URL,
+            "X-Title": YOUR_SITE_NAME,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            "model": "openai/gpt-3.5-turbo",
+            "messages": [
+              {
+                "role": "user",
+                "content": message
+              }
+            ]
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('API Response:', data); // Log the entire response for debugging
+
+        if (!data || !data.choices || !data.choices[0] || !data.choices[0].message) {
+          throw new Error('Unexpected API response format');
+        }
+
+        const aiResponse = data.choices[0].message.content;
+
+        // Call the onMessageSent function with both the user's message and the AI's response
+        onMessageSent(message, 'user');
+        onMessageSent(aiResponse, 'ai');
+
+        setMessage('');
+        if (selectedFile) {
+          handleUpload();
+        }
+      } catch (error) {
+        console.error('Error sending message:', error);
+        // Handle error (e.g., show an error message to the user)
+        onMessageSent(`Error: ${error.message}`, 'system');
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -64,6 +116,9 @@ const MessageInput = () => {
       console.log('File type:', selectedFileType);
       console.log('File MIME type:', selectedFile.type);
       console.log('File size:', selectedFile.size, 'bytes');
+      // Here you would typically implement the actual file upload logic
+      // For now, we'll just simulate it with a console log
+      onMessageSent(`File uploaded: ${selectedFile.name}`, 'system');
       setSelectedFile(null);
       setSelectedFileType('');
       if (fileInputRef.current) {
@@ -88,143 +143,6 @@ const MessageInput = () => {
   return (
     <div className="message-input-wrapper">
       <div className="message-input-container">
-        <style jsx>{`
-          .message-input-wrapper {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 0.5rem 0.5rem 0.75rem;
-            z-index: 1000;
-          }
-          .message-input-container {
-            display: flex;
-            align-items: center;
-            padding: 0.375rem;
-            background-color: rgba(10, 25, 41, 0.8);
-            border-radius: 0.75rem;
-            border: 1px solid #1e3a5f;
-            backdrop-filter: blur(10px);
-            margin: 0 0.25rem;
-          }
-          .message-input {
-            flex-grow: 1;
-            padding: 6px 0.375rem;
-            border: none;
-            background-color: transparent;
-            color: #fff;
-            font-size: 0.875rem;
-            resize: none;
-            overflow-y: auto;
-            min-height: 20px;
-            max-height: 30vh;
-            line-height: 1.2;
-          }
-          .message-input:focus {
-            outline: none;
-          }
-          .message-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-          }
-          .button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            color: #ffffff;
-            transition: color 0.2s, transform 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            min-width: 32px;
-            min-height: 32px;
-            border-radius: 50%;
-          }
-          .button:hover {
-            color: #a5c3f3;
-            transform: scale(1.1);
-          }
-          .button svg {
-            width: 20px;
-            height: 20px;
-          }
-          .upload-menu-container {
-            position: relative;
-            margin-right: 0.375rem;
-          }
-          .upload-menu {
-            position: absolute;
-            bottom: 100%;
-            left: 0;
-            background-color: rgba(15, 35, 57, 0.9);
-            border-radius: 0.5rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            width: 120px;
-            margin-bottom: 0.25rem;
-            backdrop-filter: blur(10px);
-          }
-          .upload-option {
-            display: flex;
-            align-items: center;
-            padding: 0.35rem 0.7rem;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            font-size: 0.8rem;
-          }
-          .upload-option:hover {
-            background-color: rgba(30, 58, 95, 0.8);
-          }
-          .upload-option svg {
-            margin-right: 0.5rem;
-            width: 14px;
-            height: 14px;
-          }
-          .file-input {
-            display: none;
-          }
-          @media (min-width: 640px) {
-            .message-input-wrapper {
-              padding: 0.75rem 0.75rem 1rem;
-            }
-            .message-input-container {
-              padding: 0.5rem;
-              margin: 0 0.5rem;
-            }
-            .message-input {
-              font-size: 1rem;
-              padding: 7px 0.5rem;
-            }
-            .button {
-              width: 36px;
-              height: 36px;
-              min-width: 36px;
-              min-height: 36px;
-            }
-            .button svg {
-              width: 22px;
-              height: 22px;
-            }
-            .upload-menu-container {
-              margin-right: 0.5rem;
-            }
-            .upload-menu {
-              width: 150px;
-              margin-bottom: 0.5rem;
-            }
-            .upload-option {
-              padding: 0.5rem 1rem;
-              font-size: 1rem;
-            }
-            .upload-option svg {
-              width: 18px;
-              height: 18px;
-            }
-          }
-        `}</style>
         <div className="upload-menu-container" ref={menuRef}>
           <button className="button" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <Paperclip />
@@ -255,9 +173,10 @@ const MessageInput = () => {
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           rows={1}
+          disabled={isLoading}
         />
-        <button className="button" onClick={handleSend}>
-          <Send />
+        <button className="button" onClick={handleSend} disabled={isLoading}>
+          {isLoading ? 'Sending...' : <Send />}
         </button>
       </div>
     </div>

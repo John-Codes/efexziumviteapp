@@ -1,52 +1,56 @@
 import React from 'react';
-import HamburgerMenu from "./HamburguerMenu";
-import MessageViewArea from "./MessageViewArea";
-import MessageInput from './MessageInput';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HamburgerMenu from './HamburgerMenu';
+import MainChatUI from './MainChatUI';
+import AboutUs from './AboutUs';
+import ServicesPage from './ServicesPage';
+import ContactUsPage from './ContactUsPage';
 
-function App() {
+
+// Placeholder components for other routes
+const Services = () => <div className="full-page">Services Page</div>;
+const Contact = () => <div className="full-page">Contact Page</div>;
+
+const App: React.FC = () => {
   return (
-    <div className="app-container">
-      <style>
-        {`
-          body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-          }
-          
-          .app-container {
-            min-height: 100vh;
-            width: 100%;
-            background-color: #111827;
-            color: #93c5fd;
-            display: flex;
-            flex-direction: column;
-          }
-
-          header {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 1rem;
-          }
-
-          main {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-          }
-        `}
-      </style>
-      <header>
-        <HamburgerMenu header="efexzium" />
-      </header>
-      <main>
-        <MessageViewArea />
-        <MessageInput/>
-      </main>
-    </div>
+    <Router>
+      <div className="app">
+        <HamburgerMenu header="914AI" />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<MainChatUI />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/contact" element={<ContactUsPage />} />
+          </Routes>
+        </main>
+      </div>
+      <style jsx global>{`
+        html, body, #root {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+        }
+        .app {
+          display: flex;
+          flex-direction: column;
+          min-height: 100%;
+        }
+        .main-content {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          padding-top: 60px; /* Adjust based on your HamburgerMenu height */
+        }
+        .full-page {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          padding: 20px;
+        }
+      `}</style>
+    </Router>
   );
-}
+};
 
 export default App;

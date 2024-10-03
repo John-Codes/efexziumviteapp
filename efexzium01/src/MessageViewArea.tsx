@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import './MessageView.css'; // Import the new CSS file
+import MessageInput from './MessageInput'; // Import the MessageInput component
 
-// Message Type definition (unchanged)
+
+// Message Type definition
 interface MessageType {
   id: number;
   text: string;
@@ -9,7 +12,7 @@ interface MessageType {
   liked: boolean | null;
 }
 
-// Updated Message Component
+// Message Component
 const Message: React.FC<{ 
   message: MessageType; 
   onDelete: (id: number) => void;
@@ -72,9 +75,16 @@ const Message: React.FC<{
     </div>
   );
 };
+interface MessageViewAreaProps<T> {
+  messages: T[];
+}
+interface Message {
+  text: string;
+  sender: string;
+}
 
-// Updated MessageViewArea Component
-const MessageViewArea: React.FC = () => {
+// MessageViewArea Component
+const MessageViewArea: React.FC<MessageViewAreaProps<Message>> = () => {
   const [messages, setMessages] = useState<MessageType[]>([]);
 
   useEffect(() => {
@@ -99,73 +109,20 @@ const MessageViewArea: React.FC = () => {
     ));
   };
 
+  const handleNewMessage = (text: string, sender: string) => {
+    const newMessage: MessageType = {
+      id: messages.length + 1,
+      text,
+      sender,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      liked: null
+    };
+    setMessages([...messages, newMessage]);
+  };
+
   return (
     <div className="message-view-container">
       <div className="message-view-area">
-        <style>
-          {`
-            .message-view-container {
-              display: flex;
-              justify-content: center;
-              padding: 2rem;
-              box-sizing: border-box;
-            }
-            .message-view-area {
-              display: flex;
-              flex-direction: column;
-              width: 100%;
-              max-width: 640px;
-              color: #e5e7eb;
-            }
-            .message-list {
-              display: flex;
-              flex-direction: column;
-            }
-            .message-item {
-              margin-bottom: 1rem;
-              padding: 0.5rem;
-              background-color: rgba(55, 65, 81, 0.6);
-              border-radius: 0.5rem;
-            }
-            .message-sender {
-              font-weight: bold;
-              margin-bottom: 0.25rem;
-            }
-            .message-text {
-              margin-bottom: 0.75rem;  /* Increased margin */
-            }
-            .message-footer {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              margin-top: 0.5rem;  /* Added margin-top */
-            }
-            .message-timestamp {
-              font-size: 0.75rem;
-              color: #9ca3af;
-            }
-            .message-actions {
-              display: flex;
-              gap: 0.5rem;
-            }
-            .icon-button {
-              background: none;
-              border: none;
-              cursor: pointer;
-              padding: 0.25rem;
-              color: #93c5fd;
-              opacity: 0.6;
-              transition: opacity 0.2s ease;
-            }
-            .icon-button:hover {
-              opacity: 1;
-            }
-            .icon-button.active {
-              color: #3b82f6;
-              opacity: 1;
-            }
-          `}
-        </style>
         <div className="message-list">
           {messages.map((message) => (
             <Message 
@@ -177,6 +134,7 @@ const MessageViewArea: React.FC = () => {
           ))}
         </div>
       </div>
+      <MessageInput onMessageSent={handleNewMessage} />
     </div>
   );
 };
