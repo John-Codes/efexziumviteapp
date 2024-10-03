@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
-// Message Type definition
+// Message Type definition (unchanged)
 interface MessageType {
   id: number;
   text: string;
   sender: string;
   timestamp: string;
+  liked: boolean | null;
 }
 
-// Message Component
-const Message: React.FC<{ message: MessageType; onDelete: (id: number) => void }> = ({ message, onDelete }) => {
+// Updated Message Component
+const Message: React.FC<{ 
+  message: MessageType; 
+  onDelete: (id: number) => void;
+  onLikeToggle: (id: number, liked: boolean | null) => void;
+}> = ({ message, onDelete, onLikeToggle }) => {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -26,6 +31,24 @@ const Message: React.FC<{ message: MessageType; onDelete: (id: number) => void }
       <div className="message-footer">
         <div className="message-timestamp">{message.timestamp}</div>
         <div className="message-actions">
+          <button 
+            onClick={() => onLikeToggle(message.id, true)} 
+            className={`icon-button ${message.liked === true ? 'active' : ''}`} 
+            title="Like"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill={message.liked === true ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+            </svg>
+          </button>
+          <button 
+            onClick={() => onLikeToggle(message.id, false)} 
+            className={`icon-button ${message.liked === false ? 'active' : ''}`} 
+            title="Dislike"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill={message.liked === false ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
+            </svg>
+          </button>
           <button onClick={copyToClipboard} className="icon-button" title="Copy message content">
             {copied ? (
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -50,24 +73,30 @@ const Message: React.FC<{ message: MessageType; onDelete: (id: number) => void }
   );
 };
 
-// MessageViewArea Component
+// Updated MessageViewArea Component
 const MessageViewArea: React.FC = () => {
   const [messages, setMessages] = useState<MessageType[]>([]);
 
   useEffect(() => {
     // Simulating fetching messages
     const fetchedMessages: MessageType[] = [
-      { id: 1, text: "Hello there!", sender: "User1", timestamp: "10:00 AM" },
-      { id: 2, text: "Hi! How are you?", sender: "User2", timestamp: "10:01 AM" },
-      { id: 3, text: "I'm doing great, thanks for asking!", sender: "User1", timestamp: "10:02 AM" },
-      { id: 4, text: "That's wonderful to hear!", sender: "User2", timestamp: "10:03 AM" },
-      { id: 5, text: "How's your project coming along?", sender: "User1", timestamp: "10:04 AM" },
+      { id: 1, text: "Hello there!", sender: "User1", timestamp: "10:00 AM", liked: null },
+      { id: 2, text: "Hi! How are you?", sender: "User2", timestamp: "10:01 AM", liked: null },
+      { id: 3, text: "I'm doing great, thanks for asking!", sender: "User1", timestamp: "10:02 AM", liked: null },
+      { id: 4, text: "That's wonderful to hear!", sender: "User2", timestamp: "10:03 AM", liked: null },
+      { id: 5, text: "How's your project coming along?", sender: "User1", timestamp: "10:04 AM", liked: null },
     ];
     setMessages(fetchedMessages);
   }, []);
 
   const handleDelete = (id: number) => {
     setMessages(messages.filter(message => message.id !== id));
+  };
+
+  const handleLikeToggle = (id: number, liked: boolean | null) => {
+    setMessages(messages.map(message => 
+      message.id === id ? { ...message, liked: message.liked === liked ? null : liked } : message
+    ));
   };
 
   return (
@@ -103,12 +132,13 @@ const MessageViewArea: React.FC = () => {
               margin-bottom: 0.25rem;
             }
             .message-text {
-              margin-bottom: 0.25rem;
+              margin-bottom: 0.75rem;  /* Increased margin */
             }
             .message-footer {
               display: flex;
               justify-content: space-between;
               align-items: center;
+              margin-top: 0.5rem;  /* Added margin-top */
             }
             .message-timestamp {
               font-size: 0.75rem;
@@ -130,11 +160,20 @@ const MessageViewArea: React.FC = () => {
             .icon-button:hover {
               opacity: 1;
             }
+            .icon-button.active {
+              color: #3b82f6;
+              opacity: 1;
+            }
           `}
         </style>
         <div className="message-list">
           {messages.map((message) => (
-            <Message key={message.id} message={message} onDelete={handleDelete} />
+            <Message 
+              key={message.id} 
+              message={message} 
+              onDelete={handleDelete}
+              onLikeToggle={handleLikeToggle}
+            />
           ))}
         </div>
       </div>

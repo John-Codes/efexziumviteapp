@@ -39,7 +39,7 @@ function App() {
         `}
       </style>
       <header>
-        <HamburgerMenu header="" />
+        <HamburgerMenu header="efexzium" />
       </header>
       <main>
         <MessageViewArea />

@@ -45,6 +45,8 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
       <div className="header-section">{header}</div>
       <style>
         {`
+          @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+
           .hamburger-menu-container {
             position: fixed;
             top: 0;
@@ -53,15 +55,25 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
             background-color: #111827;
             padding: 10px 20px;
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
             z-index: 1000;
           }
           .header-section {
             color: #ffffff;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-left: 20px;
+            font-family: 'Gotham', 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            flex-grow: 1;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+          }
+          .header-section:hover {
+            letter-spacing: 0.2em;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
           }
           .hamburger-menu {
             position: relative;
@@ -117,6 +129,9 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
             .menu {
               width: auto;
               min-width: 200px;
+            }
+            .header-section {
+              font-size: 1.2rem;
             }
           }
         `}

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Upload, Image, FileText, Film, Music, ChevronUp, ChevronDown } from 'lucide-react';
+import { Send, Paperclip, Image, FileText, Film, Music } from 'lucide-react';
 
 const MessageInput = () => {
   const [message, setMessage] = useState('');
@@ -22,7 +22,7 @@ const MessageInput = () => {
     const textarea = textareaRef.current;
     if (textarea) {
       textarea.style.height = 'auto';
-      const newHeight = Math.min(textarea.scrollHeight, window.innerHeight * 0.3);
+      const newHeight = Math.min(Math.max(textarea.scrollHeight, 20), window.innerHeight * 0.3);
       textarea.style.height = `${newHeight}px`;
     }
   };
@@ -109,14 +109,14 @@ const MessageInput = () => {
           }
           .message-input {
             flex-grow: 1;
-            padding: 0.25rem 0.375rem;
+            padding: 6px 0.375rem;
             border: none;
             background-color: transparent;
             color: #fff;
             font-size: 0.875rem;
             resize: none;
-            overflow-y: hidden;
-            min-height: 1.5rem;
+            overflow-y: auto;
+            min-height: 20px;
             max-height: 30vh;
             line-height: 1.2;
           }
@@ -136,10 +136,10 @@ const MessageInput = () => {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
-            min-width: 40px;
-            min-height: 40px;
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            min-height: 32px;
             border-radius: 50%;
           }
           .button:hover {
@@ -147,8 +147,8 @@ const MessageInput = () => {
             transform: scale(1.1);
           }
           .button svg {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
           }
           .upload-menu-container {
             position: relative;
@@ -196,18 +196,17 @@ const MessageInput = () => {
             }
             .message-input {
               font-size: 1rem;
-              min-height: 2rem;
-              padding: 0.5rem;
+              padding: 7px 0.5rem;
             }
             .button {
-              width: 48px;
-              height: 48px;
-              min-width: 48px;
-              min-height: 48px;
+              width: 36px;
+              height: 36px;
+              min-width: 36px;
+              min-height: 36px;
             }
             .button svg {
-              width: 28px;
-              height: 28px;
+              width: 22px;
+              height: 22px;
             }
             .upload-menu-container {
               margin-right: 0.5rem;
@@ -228,8 +227,7 @@ const MessageInput = () => {
         `}</style>
         <div className="upload-menu-container" ref={menuRef}>
           <button className="button" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            <Upload />
-            {isMenuOpen ? <ChevronDown /> : <ChevronUp />}
+            <Paperclip />
           </button>
           {isMenuOpen && (
             <div className="upload-menu">
