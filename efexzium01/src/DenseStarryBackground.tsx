@@ -8,7 +8,7 @@ const DenseStarryBackground: React.FC = () => {
         <div className="stars medium"></div>
         <div className="stars large"></div>
       </div>
-      <style jsx>{`
+      <style >{`
         .dense-starry-background {
           position: fixed;
           top: 0;

@@ -6,7 +6,7 @@ const StarryBackground: React.FC = () => {
       <div className="starry-background">
         <div className="stars"></div>
       </div>
-      <style jsx>{`
+      <style >{`
         .starry-background {
           position: fixed;
           top: 0;

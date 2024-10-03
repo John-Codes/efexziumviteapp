@@ -87,7 +87,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onMessageSent, onFileSelect
           </button>
           {isMenuOpen && (
             <div className="upload-menu">
-              {fileTypes.map(({ type, icon: Icon, accept }) => (
+              {fileTypes.map(({ type, icon: Icon }) => (
                 <div key={type} className="upload-option" onClick={() => triggerFileInput(type)}>
                   <Icon />
                   {type}

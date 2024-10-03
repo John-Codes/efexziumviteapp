@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { Components } from 'react-markdown';
 import './MessageView.css';
 
 interface Message {
@@ -60,31 +61,31 @@ const Message: React.FC<{
   const copyToClipboard = () => {
     navigator.clipboard.writeText(message.text).then(() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+      setTimeout(() => setCopied(false), 2000);
     });
+  };
+
+  const components: Components = {
+    code({ node, className, children, ...props }) {
+      const match = /language-(\w+)/.exec(className || '')
+      return match ? (
+        <CodeBlock
+          language={match[1]}
+          value={String(children).replace(/\n$/, '')}
+        />
+      ) : (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      )
+    }
   };
 
   return (
     <div className="message-item">
       <div className="message-sender">{message.sender}</div>
       <div className="message-text">
-        <ReactMarkdown
-          components={{
-            code({node, inline, className, children, ...props}) {
-              const match = /language-(\w+)/.exec(className || '')
-              return !inline && match ? (
-                <CodeBlock
-                  language={match[1]}
-                  value={String(children).replace(/\n$/, '')}
-                />
-              ) : (
-                <code className={className} {...props}>
-                  {children}
-                </code>
-              )
-            }
-          }}
-        >
+        <ReactMarkdown components={components}>
           {message.text}
         </ReactMarkdown>
       </div>
@@ -138,7 +139,6 @@ const MessageViewArea: React.FC<MessageViewAreaProps> = ({ messages: propMessage
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Convert prop messages to MessageType
     const convertedMessages: MessageType[] = propMessages.map((msg, index) => ({
       ...msg,
       id: index + 1,
@@ -157,11 +157,11 @@ const MessageViewArea: React.FC<MessageViewAreaProps> = ({ messages: propMessage
   };
 
   const handleDelete = (id: number) => {
-    setMessages(messages.filter(message => message.id !== id));
+    setMessages(prevMessages => prevMessages.filter(message => message.id !== id));
   };
 
   const handleLikeToggle = (id: number, liked: boolean | null) => {
-    setMessages(messages.map(message => 
+    setMessages(prevMessages => prevMessages.map(message => 
       message.id === id ? { ...message, liked: message.liked === liked ? null : liked } : message
     ));
   };

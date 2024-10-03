@@ -58,7 +58,7 @@ const InterstellarBackground: React.FC = () => {
           </div>
         ))}
       </div>
-      <style jsx>{`
+      <style >{`
         .interstellar-background {
           position: fixed;
           top: 0;

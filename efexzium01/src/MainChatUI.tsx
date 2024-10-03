@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import MessageViewArea from "./MessageViewArea";
 import MessageInput from "./MessageInput";
 import InterstellarBackground from './InterstellarBackground';

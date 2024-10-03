@@ -36,7 +36,7 @@ const ServicesPage: React.FC = () => {
           </div>
         </div>
       </div>
-      <style jsx>{`
+      <style >{`
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
 
         .services-container {
