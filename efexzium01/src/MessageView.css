@@ -1,85 +1,81 @@
-
 .message-view-container {
   height: calc(100vh - 100px); /* Adjust based on your layout */
-  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.message-view-container::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent; /* Chrome/Safari/Webkit */
 }
 
 .message-view-area {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 640px;
+  color: #e5e7eb;
 }
 
 .message-list {
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
-.message-view-container {
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
-    box-sizing: border-box;
-  }
-  
-  .message-view-area {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 640px;
-    color: #e5e7eb;
-  }
-  
-  .message-list {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .message-item {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    background-color: rgba(55, 65, 81, 0.6);
-    border-radius: 0.5rem;
-  }
-  
-  .message-sender {
-    font-weight: bold;
-    margin-bottom: 0.25rem;
-  }
-  
-  .message-text {
-    margin-bottom: 0.75rem;
-  }
-  
-  .message-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 0.5rem;
-  }
-  
-  .message-timestamp {
-    font-size: 0.75rem;
-    color: #9ca3af;
-  }
-  
-  .message-actions {
-    display: flex;
-    gap: 0.5rem;
-  }
-  
-  .icon-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.25rem;
-    color: #93c5fd;
-    opacity: 0.6;
-    transition: opacity 0.2s ease;
-  }
-  
-  .icon-button:hover {
-    opacity: 1;
-  }
-  
-  .icon-button.active {
-    color: #3b82f6;
-    opacity: 1;
-  }
+
+.message-item {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(55, 65, 81, 0.6);
+  border-radius: 0.5rem;
+}
+
+.message-sender {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.message-text {
+  margin-bottom: 0.75rem;
+}
+
+.message-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.message-timestamp {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.message-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: #93c5fd;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.icon-button:hover {
+  opacity: 1;
+}
+
+.icon-button.active {
+  color: #3b82f6;
+  opacity: 1;
+}
