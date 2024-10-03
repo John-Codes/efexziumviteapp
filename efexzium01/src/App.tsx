@@ -7,9 +7,7 @@ import ServicesPage from './ServicesPage';
 import ContactUsPage from './ContactUsPage';
 
 
-// Placeholder components for other routes
-const Services = () => <div className="full-page">Services Page</div>;
-const Contact = () => <div className="full-page">Contact Page</div>;
+
 
 const App: React.FC = () => {
   return (
@@ -25,7 +23,7 @@ const App: React.FC = () => {
           </Routes>
         </main>
       </div>
-      <style jsx global>{`
+      <style  >{`
         html, body, #root {
           height: 100%;
           margin: 0;

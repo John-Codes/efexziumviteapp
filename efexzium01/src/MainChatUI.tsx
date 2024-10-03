@@ -1,65 +1,63 @@
 import React, { useState } from 'react';
 import MessageViewArea from "./MessageViewArea";
 import MessageInput from "./MessageInput";
-import InterstellarBackground from './InterStellarBackground';
+import InterstellarBackground from './InterstellarBackground';
 
 interface Message {
   text: string;
   sender: string;
 }
+
 function MainChatUI() {
-  
   const [messages, setMessages] = useState<Message[]>([]);
+
+  const OPENROUTER_API_KEY = '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';
+  const YOUR_SITE_URL = 'https://your-site-url.com'; // Replace with your actual site URL
+  const YOUR_SITE_NAME = 'Your Site Name'; // Replace with your actual site name
 
   const handleMessageSent = async (newMessage: string) => {
     setMessages(prevMessages => [...prevMessages, { text: newMessage, sender: 'user' }]);
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+          "HTTP-Referer": YOUR_SITE_URL,
+          "X-Title": YOUR_SITE_NAME,
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify({ message: newMessage }),
+        body: JSON.stringify({
+          "model": "meta-llama/llama-3.2-3b-instruct:free",
+          "messages": [
+            {
+              "role": "user",
+              "content": newMessage
+            }
+          ]
+        })
       });
-
-      console.log('Response status:', response.status);
-      console.log('Response headers:', response.headers);
-
-      const responseText = await response.text();
-      console.log('Response text:', responseText);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (e) {
-        console.error('Error parsing JSON:', e);
-        throw new Error('Invalid JSON response');
-      }
+      const data = await response.json();
+      const botReply = data.choices[0].message.content;
 
-      setMessages(prevMessages => [...prevMessages, { text: data.reply, sender: 'bot' }]);
+      setMessages(prevMessages => [...prevMessages, { text: botReply, sender: 'bot' }]);
     } catch (error) {
-      if (error instanceof Error) {
-        console.error('Error details:', error.message);
-        setMessages(prevMessages => [...prevMessages, { text: `Error: ${error.message}`, sender: 'bot' }]);
-      } else {
-        console.error('Unknown error occurred');
-        setMessages(prevMessages => [...prevMessages, { text: 'An unknown error occurred', sender: 'bot' }]);
-      }
+      console.error('Error:', error);
+      setMessages(prevMessages => [...prevMessages, { text: 'An error occurred while processing your request.', sender: 'bot' }]);
     }
   };
 
-  
   return (
     <div className="main-chat-container">
       <InterstellarBackground />
       <main className="chat-content">
         <MessageViewArea messages={messages} />
-        <MessageInput onMessageSent={handleMessageSent} />
+        <MessageInput onMessageSent={handleMessageSent} onFileSelected={() => {}} />
       </main>
       <style>{`
         .main-chat-container {

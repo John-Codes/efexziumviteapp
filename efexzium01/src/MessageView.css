@@ -1,3 +1,17 @@
+
+.message-view-container {
+  height: calc(100vh - 100px); /* Adjust based on your layout */
+  overflow-y: auto;
+}
+
+.message-view-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.message-list {
+  flex-grow: 1;
+}
 .message-view-container {
     display: flex;
     justify-content: center;

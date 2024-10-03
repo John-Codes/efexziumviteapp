@@ -1,18 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import './MessageView.css'; // Import the new CSS file
-import MessageInput from './MessageInput'; // Import the MessageInput component
+import React, { useState, useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import './MessageView.css';
 
-
-// Message Type definition
-interface MessageType {
-  id: number;
+interface Message {
   text: string;
   sender: string;
+}
+
+interface MessageType extends Message {
+  id: number;
   timestamp: string;
   liked: boolean | null;
 }
 
-// Message Component
+interface MessageViewAreaProps {
+  messages: Message[];
+}
+
+const CopyButton: React.FC<{ text: string }> = ({ text }) => {
+  const [isCopied, setIsCopied] = useState(false);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  return (
+    <button onClick={copyToClipboard} className="copy-button">
+      {isCopied ? 'Copied!' : 'Copy'}
+    </button>
+  );
+};
+
+const CodeBlock: React.FC<{language: string | undefined, value: string}> = ({language, value}) => {
+  return (
+    <div className="code-block-wrapper">
+      <CopyButton text={value} />
+      <SyntaxHighlighter style={atomDark} language={language} PreTag="div">
+        {value}
+      </SyntaxHighlighter>
+    </div>
+  );
+};
+
 const Message: React.FC<{ 
   message: MessageType; 
   onDelete: (id: number) => void;
@@ -30,7 +67,27 @@ const Message: React.FC<{
   return (
     <div className="message-item">
       <div className="message-sender">{message.sender}</div>
-      <div className="message-text">{message.text}</div>
+      <div className="message-text">
+        <ReactMarkdown
+          components={{
+            code({node, inline, className, children, ...props}) {
+              const match = /language-(\w+)/.exec(className || '')
+              return !inline && match ? (
+                <CodeBlock
+                  language={match[1]}
+                  value={String(children).replace(/\n$/, '')}
+                />
+              ) : (
+                <code className={className} {...props}>
+                  {children}
+                </code>
+              )
+            }
+          }}
+        >
+          {message.text}
+        </ReactMarkdown>
+      </div>
       <div className="message-footer">
         <div className="message-timestamp">{message.timestamp}</div>
         <div className="message-actions">
@@ -75,29 +132,29 @@ const Message: React.FC<{
     </div>
   );
 };
-interface MessageViewAreaProps<T> {
-  messages: T[];
-}
-interface Message {
-  text: string;
-  sender: string;
-}
 
-// MessageViewArea Component
-const MessageViewArea: React.FC<MessageViewAreaProps<Message>> = () => {
+const MessageViewArea: React.FC<MessageViewAreaProps> = ({ messages: propMessages }) => {
   const [messages, setMessages] = useState<MessageType[]>([]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Simulating fetching messages
-    const fetchedMessages: MessageType[] = [
-      { id: 1, text: "Hello there!", sender: "User1", timestamp: "10:00 AM", liked: null },
-      { id: 2, text: "Hi! How are you?", sender: "User2", timestamp: "10:01 AM", liked: null },
-      { id: 3, text: "I'm doing great, thanks for asking!", sender: "User1", timestamp: "10:02 AM", liked: null },
-      { id: 4, text: "That's wonderful to hear!", sender: "User2", timestamp: "10:03 AM", liked: null },
-      { id: 5, text: "How's your project coming along?", sender: "User1", timestamp: "10:04 AM", liked: null },
-    ];
-    setMessages(fetchedMessages);
-  }, []);
+    // Convert prop messages to MessageType
+    const convertedMessages: MessageType[] = propMessages.map((msg, index) => ({
+      ...msg,
+      id: index + 1,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      liked: null
+    }));
+    setMessages(convertedMessages);
+  }, [propMessages]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const handleDelete = (id: number) => {
     setMessages(messages.filter(message => message.id !== id));
@@ -107,17 +164,6 @@ const MessageViewArea: React.FC<MessageViewAreaProps<Message>> = () => {
     setMessages(messages.map(message => 
       message.id === id ? { ...message, liked: message.liked === liked ? null : liked } : message
     ));
-  };
-
-  const handleNewMessage = (text: string, sender: string) => {
-    const newMessage: MessageType = {
-      id: messages.length + 1,
-      text,
-      sender,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      liked: null
-    };
-    setMessages([...messages, newMessage]);
   };
 
   return (
@@ -132,9 +178,9 @@ const MessageViewArea: React.FC<MessageViewAreaProps<Message>> = () => {
               onLikeToggle={handleLikeToggle}
             />
           ))}
+          <div ref={messagesEndRef} />
         </div>
       </div>
-      <MessageInput onMessageSent={handleNewMessage} />
     </div>
   );
 };
