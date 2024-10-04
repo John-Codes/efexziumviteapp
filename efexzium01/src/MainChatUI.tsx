@@ -6,6 +6,7 @@ import InterstellarBackground from './InterstellarBackground';
 interface Message {
   text: string;
   sender: string;
+  role: 'user' | 'assistant';
 }
 
 function MainChatUI() {
@@ -16,9 +17,15 @@ function MainChatUI() {
   const YOUR_SITE_NAME = 'Your Site Name'; // Replace with your actual site name
 
   const handleMessageSent = async (newMessage: string) => {
-    setMessages(prevMessages => [...prevMessages, { text: newMessage, sender: 'user' }]);
+    const userMessage: Message = { text: newMessage, sender: 'user', role: 'user' };
+    setMessages(prevMessages => [...prevMessages, userMessage]);
 
     try {
+      const messageHistory = messages.map(msg => ({
+        role: msg.role,
+        content: msg.text
+      }));
+
       const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -28,8 +35,9 @@ function MainChatUI() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "model": "meta-llama/llama-3.2-3b-instruct:free",
+          "model": "meta-llama/llama-3-8b-instruct:free",
           "messages": [
+            ...messageHistory,
             {
               "role": "user",
               "content": newMessage
@@ -45,11 +53,23 @@ function MainChatUI() {
       const data = await response.json();
       const botReply = data.choices[0].message.content;
 
-      setMessages(prevMessages => [...prevMessages, { text: botReply, sender: 'bot' }]);
+      const botMessage: Message = { text: botReply, sender: 'bot', role: 'assistant' };
+      setMessages(prevMessages => [...prevMessages, botMessage]);
     } catch (error) {
       console.error('Error:', error);
-      setMessages(prevMessages => [...prevMessages, { text: 'An error occurred while processing your request.', sender: 'bot' }]);
+      const errorMessage: Message = { 
+        text: 'An error occurred while processing your request.', 
+        sender: 'bot', 
+        role: 'assistant' 
+      };
+      setMessages(prevMessages => [...prevMessages, errorMessage]);
     }
+  };
+
+  const handleFileSelected = (file: File) => {
+    // Handle file upload logic here
+    console.log('File selected:', file);
+    // You might want to upload the file to a server and then send a message about the uploaded file
   };
 
   return (
@@ -57,7 +77,7 @@ function MainChatUI() {
       <InterstellarBackground />
       <main className="chat-content">
         <MessageViewArea messages={messages} />
-        <MessageInput onMessageSent={handleMessageSent} onFileSelected={() => {}} />
+        <MessageInput onMessageSent={handleMessageSent} onFileSelected={handleFileSelected} />
       </main>
       <style>{`
         .main-chat-container {

@@ -38,12 +38,15 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
         </button>
         <nav className={`menu ${isOpen ? 'open' : ''}`}>
           <NavLink to="/" className="menu-item" onClick={() => setIsOpen(false)}>Home</NavLink>
+          <NavLink to="/Login" className="menu-item" onClick={() => setIsOpen(false)}>Login</NavLink>
           <NavLink to="/about" className="menu-item" onClick={() => setIsOpen(false)}>About</NavLink>
           <NavLink to="/services" className="menu-item" onClick={() => setIsOpen(false)}>Services</NavLink>
           <NavLink to="/contact" className="menu-item" onClick={() => setIsOpen(false)}>Contact</NavLink>
+          <NavLink to="/Settings" className="menu-item" onClick={() => setIsOpen(false)}>Settings</NavLink>
         </nav>
       </div>
       <div className="header-section">{header}</div>
+      <div className="spacer"></div>
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
@@ -61,16 +64,19 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
             z-index: 1000;
           }
           .header-section {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             color: #ffffff;
             font-family: 'Gotham', 'Montserrat', sans-serif;
             font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            flex-grow: 1;
             text-align: center;
             transition: all 0.3s ease;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            white-space: nowrap;
           }
           .header-section:hover {
             letter-spacing: 0.2em;
@@ -78,6 +84,10 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
           }
           .hamburger-menu {
             position: relative;
+            z-index: 1001;
+          }
+          .spacer {
+            width: 24px;
           }
           .hamburger-button {
             background: none;

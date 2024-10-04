@@ -5,6 +5,8 @@ import MainChatUI from './MainChatUI';
 import AboutUs from './AboutUs';
 import ServicesPage from './ServicesPage';
 import ContactUsPage from './ContactUsPage';
+import LoginPage from './loginPage';
+import SettingsPage from './settingsPage';
 
 
 
@@ -17,9 +19,11 @@ const App: React.FC = () => {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<MainChatUI />} />
+            <Route path="/Login" element={<LoginPage/>}/>
             <Route path="/about" element={<AboutUs />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/contact" element={<ContactUsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </main>
       </div>
