@@ -5,7 +5,7 @@
   transition: all 0.3s ease;
   backdrop-filter: blur(5px);
   width: 90%;
-  max-width: 400px;
+  max-width: 600px; /* Increased from 400px */
   margin: 0 auto;
   overflow-x: hidden;
   display: flex;
@@ -88,7 +88,6 @@ input:checked + .slider:before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 20px;
 }
 
 .todo-input-container {
@@ -98,6 +97,7 @@ input:checked + .slider:before {
   gap: 0.75rem;
   margin-top: 1.5rem;
   width: 100%;
+  max-width: 560px; /* Increased from 360px */
 }
 
 .text-input, select, textarea {
@@ -128,13 +128,13 @@ select {
 }
 
 select option {
-  background-color: white;
-  color: black;
+  background-color: #333;
+  color: white;
 }
 
 select:focus {
-  background-color: white;
-  color: black;
+  background-color: #333;
+  color: white;
 }
 
 textarea.text-input {
@@ -146,6 +146,7 @@ textarea.text-input {
   margin-top: 1.5rem;
   overflow-x: auto;
   width: 100%;
+  max-width: 560px; /* Increased from 360px */
 }
 
 .todo-table {
@@ -166,11 +167,13 @@ textarea.text-input {
 }
 
 .button-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center buttons horizontally */
   gap: 0.75rem;
   margin-top: 1.5rem;
   width: 100%;
+  max-width: 560px;
 }
 
 .save-button, .delete-button {
@@ -256,6 +259,13 @@ textarea.text-input {
 
   .setting-status {
     font-size: 0.8rem;
+  }
+
+  .todo-input-container,
+  .button-container,
+  .todo-table-container {
+    width: 100%;
+    max-width: none;
   }
 
   .text-input, select, textarea {

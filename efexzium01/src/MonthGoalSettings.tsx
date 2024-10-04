@@ -5,22 +5,61 @@ interface MonthGoalSettingsProps {
   setMonthGoalsActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface GoalData {
+  goal: string;
+  startDate: string;
+  totalRemainingDays: number;
+}
+
 const MonthGoalSettings: React.FC<MonthGoalSettingsProps> = ({ monthGoalsActive, setMonthGoalsActive }) => {
   const [monthGoal, setMonthGoal] = useState('');
-  const [savedGoal, setSavedGoal] = useState('');
+  const [savedGoalData, setSavedGoalData] = useState<GoalData | null>(null);
+
+  const parseCSVGoal = (): GoalData => {
+    const csvData = localStorage.getItem('monthlyGoalCSV');
+    if (csvData) {
+      const [goal, startDate, totalRemainingDays] = csvData.split(',');
+      return { goal, startDate, totalRemainingDays: parseInt(totalRemainingDays, 10) };
+    }
+    return { goal: '', startDate: '', totalRemainingDays: 0 };
+  };
+
+  const updateTotalRemainingDays = () => {
+    let monthlyGoalData = parseCSVGoal();
+    if (monthlyGoalData.startDate) {
+      const startDate = new Date(monthlyGoalData.startDate);
+      const currentDate = new Date();
+      const daysPassed = Math.floor((currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+      monthlyGoalData.totalRemainingDays = Math.max(30 - daysPassed, 0);
+      
+      // Update CSV
+      const csvData = `${monthlyGoalData.goal},${monthlyGoalData.startDate},${monthlyGoalData.totalRemainingDays}`;
+      localStorage.setItem('monthlyGoalCSV', csvData);
+      setSavedGoalData(monthlyGoalData);
+    }
+  };
 
   useEffect(() => {
-    const savedGoalFromStorage = localStorage.getItem('monthGoal');
-    if (savedGoalFromStorage) {
-      setSavedGoal(savedGoalFromStorage);
-      setMonthGoal(savedGoalFromStorage);
+    const goalData = parseCSVGoal();
+    if (goalData.goal) {
+      setSavedGoalData(goalData);
+      setMonthGoal(goalData.goal);
     }
+    updateTotalRemainingDays();
+
+    // Set up an interval to update the remaining days every minute
+    const intervalId = setInterval(updateTotalRemainingDays, 60000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleSaveGoal = () => {
-    setSavedGoal(monthGoal);
-    localStorage.setItem('monthGoal', monthGoal);
-    alert('Goal saved: ' + monthGoal);
+    const currentDate = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+    const csvData = `${monthGoal},${currentDate},30`;
+    localStorage.setItem('monthlyGoalCSV', csvData);
+    updateTotalRemainingDays();
+    alert(`Goal saved: ${monthGoal}\nStart date: ${currentDate}`);
   };
 
   return (
@@ -50,9 +89,14 @@ const MonthGoalSettings: React.FC<MonthGoalSettingsProps> = ({ monthGoalsActive,
           <button className="save-button" onClick={handleSaveGoal}>Save Goal</button>
         </div>
       )}
-      {savedGoal && (
-        <p className="saved-goal">Current Goal: {savedGoal}</p>
+      {savedGoalData && (
+        <div className="saved-goal-info">
+          <p className="saved-goal">Current Goal: {savedGoalData.goal}</p>
+          <p className="goal-start-date">Started on: {savedGoalData.startDate}</p>
+          <p className="days-left">Days left: {savedGoalData.totalRemainingDays}</p>
+        </div>
       )}
+
 
       <style>{`
         .setting-card {
