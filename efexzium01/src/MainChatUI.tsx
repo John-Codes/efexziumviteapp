@@ -8,6 +8,7 @@ interface Message {
   text: string;
   sender: string;
   role: 'user' | 'assistant';
+  model: string;
 }
 
 interface GoalData {
@@ -30,11 +31,24 @@ interface TodoOperation {
   newData?: Partial<Todo>;
 }
 
+const AI_MODELS = [
+  "meta-llama/llama-3.2-11b-vision-instruct:free",
+  "meta-llama/llama-3.1-8b-instruct:free",
+  "meta-llama/llama-3.1-70b-instruct:free",
+  "meta-llama/llama-3.1-405b-instruct:free",
+  "liquid/lfm-40b:free",
+  "anthropic/claude-3.5-sonnet:beta",
+  "anthropic/claude-3-opus:beta",
+  "qwen/qwen-2-7b-instruct:free",
+  "nousresearch/hermes-3-llama-3.1-405b:free"
+];
+
 const MainChatUI: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [monthGoal, setMonthGoal] = useState<GoalData | null>(null);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedModel, setSelectedModel] = useState(AI_MODELS[0]);
 
   const OPENROUTER_API_KEY = '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';
   const YOUR_SITE_URL = 'https://your-site-url.com'; // Replace with your actual site URL
@@ -110,7 +124,7 @@ const MainChatUI: React.FC = () => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "model": "meta-llama/llama-3-8b-instruct:free",
+          "model": selectedModel,
           "messages": [
             {
               "role": "system",
@@ -144,7 +158,7 @@ const MainChatUI: React.FC = () => {
   };
 
   const handleMessageSent = async (newMessage: string) => {
-    const userMessage: Message = { text: newMessage, sender: 'user', role: 'user' };
+    const userMessage: Message = { text: newMessage, sender: 'user', role: 'user', model: selectedModel };
     setMessages(prevMessages => [...prevMessages, userMessage]);
     setIsLoading(true);
     console.log('Starting message processing');
@@ -158,7 +172,8 @@ const MainChatUI: React.FC = () => {
           const operationMessage: Message = { 
             text: `Todo ${todoOperation.operation.toLowerCase()}d: ${todoOperation.task}`, 
             sender: 'bot', 
-            role: 'assistant' 
+            role: 'assistant',
+            model: selectedModel
           };
           setMessages(prevMessages => [...prevMessages, operationMessage]);
           return;
@@ -191,7 +206,7 @@ const MainChatUI: React.FC = () => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          "model": "meta-llama/llama-3-8b-instruct:free",
+          "model": selectedModel,
           "messages": [
             {
               "role": "system",
@@ -214,14 +229,15 @@ const MainChatUI: React.FC = () => {
       console.log('Received response from OpenRouter API');
       const botReply = data.choices[0].message.content;
 
-      const botMessage: Message = { text: botReply, sender: 'bot', role: 'assistant' };
+      const botMessage: Message = { text: botReply, sender: 'bot', role: 'assistant', model: selectedModel };
       setMessages(prevMessages => [...prevMessages, botMessage]);
     } catch (error) {
       console.error('Error:', error);
       const errorMessage: Message = { 
         text: 'An error occurred while processing your request.', 
         sender: 'bot', 
-        role: 'assistant' 
+        role: 'assistant',
+        model: selectedModel
       };
       setMessages(prevMessages => [...prevMessages, errorMessage]);
     } finally {
@@ -235,16 +251,30 @@ const MainChatUI: React.FC = () => {
     // Implement file handling logic here
   };
 
+  const handleModelChange = (model: string) => {
+    setSelectedModel(model);
+  };
+
+  const handleDeleteMessage = (index: number) => {
+    setMessages(prevMessages => prevMessages.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="main-chat-container relative">
       <InterstellarBackground />
       <main className="chat-content">
-        <MessageViewArea messages={messages} />
+        <MessageViewArea 
+          messages={messages} 
+          aiModels={AI_MODELS}
+          selectedModel={selectedModel}
+          onModelChange={handleModelChange}
+          onDeleteMessage={handleDeleteMessage}
+        />
         <MessageInput onMessageSent={handleMessageSent} onFileSelected={handleFileSelected} />
-      {isLoading && <LoadingIndicator />}
+        {isLoading && <LoadingIndicator />}
       </main>
       <footer>
-
+        {/* Footer content */}
       </footer>
     </div>
   );
