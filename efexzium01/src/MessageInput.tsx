@@ -1,4 +1,3 @@
-// MessageInput.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import SendButton from './SendButton';
 import UploadButton from './UploadButton';
@@ -52,6 +51,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onMessageSent, onFileSelect
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           rows={1}
+          spellCheck="false" // Add this line
         />
         <SendButton onClick={handleSend} />
       </div>

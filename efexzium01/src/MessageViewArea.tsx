@@ -78,6 +78,14 @@ const Message: React.FC<{
           {children}
         </code>
       )
+    },
+    li(props) {
+      return (
+        <>
+          <li {...props} />
+          <br />
+        </>
+      );
     }
   };
 
