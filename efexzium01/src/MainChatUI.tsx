@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import MessageViewArea from "./MessageViewArea";
-import MessageInput from "./MessageInput";
-import InterstellarBackground from './InterstellarBackground';
+import React, { useState, useEffect, lazy } from 'react';
+import axios from 'axios';
 import LoadingIndicator from './LoadingIndicator ';
 
-interface Message {
+import InterstellarBackground from './InterstellarBackground';
+
+const MessageViewArea = lazy(() => import("./MessageViewArea"));
+const MessageInput = lazy(() => import("./MessageInput"));
+const LightSpeedBackground = lazy(() => import('./LightSpeedBackground'));
+
+interface ChatMessage {
   text: string;
   sender: string;
-  role: 'user' | 'assistant';
+  role: 'user' | 'assistant' | 'system';
   model: string;
 }
 
@@ -31,10 +35,16 @@ interface TodoOperation {
   newData?: Partial<Todo>;
 }
 
+interface SearchResult {
+  name: string;
+  url: string;
+  snippet: string;
+}
+
 const AI_MODELS = [
+  "meta-llama/llama-3.1-70b-instruct:free",
   "meta-llama/llama-3.2-11b-vision-instruct:free",
   "meta-llama/llama-3.1-8b-instruct:free",
-  "meta-llama/llama-3.1-70b-instruct:free",
   "meta-llama/llama-3.1-405b-instruct:free",
   "liquid/lfm-40b:free",
   "anthropic/claude-3.5-sonnet:beta",
@@ -44,20 +54,35 @@ const AI_MODELS = [
 ];
 
 const MainChatUI: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      text: "Hello, World! Welcome to the AI Assistant. How can I help you today?",
+      sender: 'bot',
+      role: 'assistant',
+      model: AI_MODELS[0]
+    }
+  ]);
   const [monthGoal, setMonthGoal] = useState<GoalData | null>(null);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState(AI_MODELS[0]);
+  const [isComponentsLoaded, setIsComponentsLoaded] = useState(false);
+  const [aiSearchActive, setAISearchActive] = useState(false);
 
   const OPENROUTER_API_KEY = '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';
-  const YOUR_SITE_URL = 'https://your-site-url.com'; // Replace with your actual site URL
-  const YOUR_SITE_NAME = 'Your Site Name'; // Replace with your actual site name
+  const YOUR_SITE_URL = 'https://your-site-url.com';
+  const YOUR_SITE_NAME = 'Your Site Name';
 
   useEffect(() => {
     loadMonthGoal();
     loadTodos();
+    loadAISearchPreference();
     const intervalId = setInterval(loadMonthGoal, 60000);
+
+    setTimeout(() => {
+      setIsComponentsLoaded(true);
+    }, 2000);
+
     return () => clearInterval(intervalId);
   }, []);
 
@@ -78,6 +103,13 @@ const MainChatUI: React.FC = () => {
     const storedTodos = localStorage.getItem('todos');
     if (storedTodos) {
       setTodos(JSON.parse(storedTodos));
+    }
+  };
+
+  const loadAISearchPreference = () => {
+    const savedPreference = localStorage.getItem('aiSearchActive');
+    if (savedPreference !== null) {
+      setAISearchActive(JSON.parse(savedPreference));
     }
   };
 
@@ -145,7 +177,6 @@ const MainChatUI: React.FC = () => {
       const data = await response.json();
       const aiResponse = data.choices[0].message.content;
 
-      // Parse the AI response to get the TodoOperation
       const todoOperation: TodoOperation = JSON.parse(aiResponse);
       return todoOperation;
     } catch (error) {
@@ -157,19 +188,44 @@ const MainChatUI: React.FC = () => {
     }
   };
 
+  const performWebSearch = async (query: string): Promise<SearchResult[]> => {
+    try {
+      const response = await axios.post('https://main-ai-api.onrender.com/search', {
+        query: query,
+        count: 5
+      }, { timeout: 10000 });
+      return response.data.results;
+    } catch (error) {
+      console.error('Error performing web search:', error);
+      return [];
+    }
+  };
+
+
+  const formatSearchResultsAsMarkdown = (results: SearchResult[]): string => {
+    return `
+  ## Web search results:
+  
+  ${results.map((result, index) => `
+  ${index + 1}. **[${result.name}](${result.url})**
+      ${'\n'}
+     ${result.snippet}
+  `).join('\n')}
+    `.trim();
+  };
+
   const handleMessageSent = async (newMessage: string) => {
-    const userMessage: Message = { text: newMessage, sender: 'user', role: 'user', model: selectedModel };
+    const userMessage: ChatMessage = { text: newMessage, sender: 'user', role: 'user', model: selectedModel };
     setMessages(prevMessages => [...prevMessages, userMessage]);
     setIsLoading(true);
     console.log('Starting message processing');
 
     try {
-      // Check if the message is related to todo operations
       if (newMessage.toLowerCase().includes('todo')) {
         const todoOperation = await promptAIForTodoOperation(newMessage);
         if (todoOperation) {
           handleTodoOperation(todoOperation);
-          const operationMessage: Message = { 
+          const operationMessage: ChatMessage = { 
             text: `Todo ${todoOperation.operation.toLowerCase()}d: ${todoOperation.task}`, 
             sender: 'bot', 
             role: 'assistant',
@@ -180,7 +236,32 @@ const MainChatUI: React.FC = () => {
         }
       }
 
-      // If not a todo operation, proceed with the regular chat flow
+      let searchResults: SearchResult[] = [];
+      if (aiSearchActive) {
+        searchResults = await performWebSearch(newMessage);
+        
+        console.log('Search Results:', searchResults); // Add this line
+        
+        if (searchResults.length > 0) {
+          const formatted = formatSearchResultsAsMarkdown(searchResults);
+          const searchResultsMessage: ChatMessage = {
+            text: formatted  ,
+            sender: 'system',
+            role: 'system',
+            model: selectedModel
+          };
+          setMessages(prevMessages => [...prevMessages, searchResultsMessage]);
+        } else {
+          const noResultsMessage: ChatMessage = {
+            text: "I'm sorry, but I couldn't retrieve any search results at the moment. The AI search API might be spinning up or experiencing issues. As we're using a free service, it may take a moment to respond. Let me answer based on my existing knowledge instead.",
+            sender: 'system',
+            role: 'system',
+            model: selectedModel
+          };
+          setMessages(prevMessages => [...prevMessages, noResultsMessage]);
+        }
+      }
+
       const messageHistory = messages.map(msg => ({
         role: msg.role,
         content: msg.text
@@ -196,6 +277,10 @@ const MainChatUI: React.FC = () => {
           ).join("\n")
         : "No todos set.";
 
+      let searchContext = searchResults.length > 0
+        ? `Based on the following web search results:\n${JSON.stringify(searchResults, null, 2)}\n\nPlease summarize the information and respond to the user's query.`
+        : '';
+
       console.log('Sending request to OpenRouter API');
       const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
@@ -210,7 +295,7 @@ const MainChatUI: React.FC = () => {
           "messages": [
             {
               "role": "system",
-              "content": `Users monthly goal information: ${monthGoalMessage}\n\n Todos information: ${todosMessage}`
+              "content": `Users monthly goal information: ${monthGoalMessage}\n\nTodos information: ${todosMessage}\n\n${searchContext}`
             },
             ...messageHistory,
             {
@@ -229,12 +314,12 @@ const MainChatUI: React.FC = () => {
       console.log('Received response from OpenRouter API');
       const botReply = data.choices[0].message.content;
 
-      const botMessage: Message = { text: botReply, sender: 'bot', role: 'assistant', model: selectedModel };
+      const botMessage: ChatMessage = { text: botReply, sender: 'bot', role: 'assistant', model: selectedModel };
       setMessages(prevMessages => [...prevMessages, botMessage]);
     } catch (error) {
       console.error('Error:', error);
-      const errorMessage: Message = { 
-        text: 'An error occurred while processing your request.', 
+      const errorMessage: ChatMessage = { 
+        text: 'An error occurred while processing your request. Please try again later.', 
         sender: 'bot', 
         role: 'assistant',
         model: selectedModel
@@ -259,23 +344,27 @@ const MainChatUI: React.FC = () => {
     setMessages(prevMessages => prevMessages.filter((_, i) => i !== index));
   };
 
+  if (!isComponentsLoaded) {
+    return <LightSpeedBackground />;
+  }
+
   return (
     <div className="main-chat-container relative">
-      <InterstellarBackground />
-      <main className="chat-content">
-        <MessageViewArea 
-          messages={messages} 
-          aiModels={AI_MODELS}
-          selectedModel={selectedModel}
-          onModelChange={handleModelChange}
-          onDeleteMessage={handleDeleteMessage}
-        />
-        <MessageInput onMessageSent={handleMessageSent} onFileSelected={handleFileSelected} />
-        {isLoading && <LoadingIndicator />}
-      </main>
-      <footer>
-        {/* Footer content */}
-      </footer>
+      {/* <Suspense fallback={<LightSpeedBackground />}> */}
+        <InterstellarBackground />
+        <main className="chat-content">
+          <MessageViewArea 
+            messages={messages} 
+            aiModels={AI_MODELS}
+            selectedModel={selectedModel}
+            onModelChange={handleModelChange}
+            onDeleteMessage={handleDeleteMessage}
+          />
+          <MessageInput onMessageSent={handleMessageSent} onFileSelected={handleFileSelected} />
+          {isLoading && <LoadingIndicator />}
+        </main>
+      {/* </Suspense> */}
+  
     </div>
   );
 };

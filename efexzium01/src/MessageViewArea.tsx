@@ -5,15 +5,15 @@ import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Components } from 'react-markdown';
 import './MessageView.css';
 
-interface Message {
+interface ChatMessage {
   text: string;
   sender: string;
-  role: 'user' | 'assistant';
+  role: 'user' | 'assistant' | 'system';
   model: string;
 }
 
 interface MessageViewAreaProps {
-  messages: Message[];
+  messages: ChatMessage[];
   aiModels: string[];
   selectedModel: string;
   onModelChange: (model: string) => void;
@@ -52,7 +52,7 @@ const CodeBlock: React.FC<{language: string | undefined, value: string}> = ({lan
 };
 
 const Message: React.FC<{ 
-  message: Message; 
+  message: ChatMessage; 
   onDelete: () => void;
   onLikeToggle: (liked: boolean | null) => void;
   aiModels: string[];
@@ -70,10 +70,22 @@ const Message: React.FC<{
     });
   };
 
-  const getShortModelName = (fullName: string) => {
-    return fullName.split('/').pop() || fullName;
+  const getShortModelName = (fullName: string): string => {
+    // Split the full name and get the last part
+    let shortName = fullName.split('/').pop() || fullName;
+    
+    // Remove ":free" suffix if present
+    shortName = shortName.replace(/:free$/, '');
+    
+    // Remove "instruct" and clean up any remaining hyphens or underscores
+    shortName = shortName
+      .replace(/instruct/i, '')
+      .replace(/[-_]+/g, ' ')
+      .trim()
+      .replace(/\s+/g, '-');
+    
+    return shortName;
   };
-
   const components: Components = {
     code({ node, className, children, ...props }) {
       const match = /language-(\w+)/.exec(className || '')
