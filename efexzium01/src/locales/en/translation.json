@@ -1,0 +1,152 @@
+{
+    "menu": {
+      "toggleAria": "Toggle menu",
+      "home": "Home",
+      "login": "Login",
+      "about": "About",
+      "services": "Services",
+      "contact": "Contact",
+      "settings": "Settings",
+      "plans":"Plans"
+    },
+    "mainMessage": {
+      "appFeatures": "App Features:",
+      "feature1": "1. Set goals, get AI-tailored advice",
+      "feature2": "2. Stay focused, avoid distractions",
+      "feature3": "3. AI-powered internet searches",
+      "feature4": "4. Custom AI music for ads",
+      "feature5": "5. AI-driven insights throughout",
+      "benefits": "Benefits:",
+      "benefit1": "• Personalized goal management",
+      "benefit2": "• Efficient focus",
+      "benefit3": "• Smart internet searches",
+      "benefit4": "• Tailored music solutions",
+      "benefit5": "• Continuous AI support"
+    }
+,
+    "aboutUs": {
+        "title": "About Us",
+        "aiConsulting": {
+          "title": "AI Consulting",
+          "description": "Modernize your business with AI"
+        },
+        "aiFocus": {
+          "title": "AI Focus",
+          "description": "An AI that helps you search the internet and be a conversational JIRA while focusing on your goals"
+        },
+        "aiTrading": {
+          "title": "AI Trading",
+          "description": "AI trade bot that analyzes the market to seize all opportunities"
+        }
+      }
+      ,
+      "services": {
+    "title": "Our Services",
+    "aiConsulting": {
+      "title": "AI Consulting",
+      "description": "Transform your business with cutting-edge AI solutions. Our expert consultants will guide you through the process of integrating AI into your operations, enhancing efficiency and driving innovation.",
+      "features": {
+        "strategy": "Custom AI strategy development",
+        "implementation": "AI implementation and integration",
+        "optimization": "AI-driven process optimization"
+      }
+    },
+    "aiFocus": {
+      "title": "AI Focus",
+      "description": "Boost your productivity with our AI-powered assistant. Seamlessly search the internet, manage tasks, and stay focused on your goals with intelligent conversation and task tracking.",
+      "features": {
+        "search": "Intelligent web searching",
+        "jira": "Conversational JIRA integration",
+        "goals": "Personalized goal tracking"
+      }
+    },
+    "aiTrading": {
+      "title": "AI Trading",
+      "description": "Maximize your trading potential with our advanced AI trading bot. Leverage machine learning algorithms to analyze market trends, identify opportunities, and execute trades with precision.",
+      "features": {
+        "analysis": "Real-time market analysis",
+        "strategies": "Automated trading strategies",
+        "risk": "Risk management optimization"
+      }
+    }
+  }
+  ,
+  "contactUs": {
+    "title": "Contact Us",
+    "form": {
+      "title": "Send us a message",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "submit": "Send Message"
+    },
+    "info": {
+      "title": "Get in touch",
+      "email": "Email",
+      "phone": "Phone",
+      "linkedin": "LinkedIn",
+      "youtube": "YouTube"
+    }
+  }
+  ,
+  "notifications": {
+    "title": "Notifications",
+    "enable": "Enable Notifications",
+    "status": "Notifications are {{status}}",
+    "on": "ON",
+    "off": "OFF"
+  },
+  "monthGoals": {
+    "title": "Month Goals",
+    "activate": "Activate Month Goals",
+    "status": "Month Goals are {{status}}",
+    "active": "ACTIVE",
+    "inactive": "INACTIVE",
+    "enterGoal": "Enter your month goal",
+    "saveGoal": "Save Goal",
+    "currentGoal": "Current Goal",
+    "startedOn": "Started on",
+    "daysLeft": "Days left",
+    "goalSaved": "Goal saved: {{goal}}\nStart date: {{date}}"
+  }
+  ,
+  "todoList": {
+    "title": "Todo List",
+    "activate": "Activate Todo List",
+    "status": "Todo List is {{status}}",
+    "active": "ACTIVE",
+    "inactive": "INACTIVE",
+    "task": "Task",
+    "dueDate": "Due Date",
+    "priority": "Priority",
+    
+    "notes": "Notes",
+    "action": "Action",
+    "delete": "Delete",
+    "enterTask": "Enter task",
+    "addNotes": "Add notes (optional)",
+    "addTodo": "Add Todo",
+    "saved": "Saved!",
+    "saveToLocalStorage": "Save to Local Storage",
+    "exportToCSV": "Export to CSV",
+    "importFromCSV": "Import from CSV",
+    "dueDates": {
+      "this week": "This Week",
+      "next week": "Next Week",
+      "this month": "This Month",
+      "next month": "Next Month"
+    },
+    "statuses": {
+      "in progress": "In Progress",
+      "complete": "Complete",
+      "blocked": "Blocked"
+    }
+  },
+  "aiSearch": {
+    "title": "AI Search",
+    "activate": "Activate AI Search",
+    "status": "AI Search is {{status}}",
+    "active": "ACTIVE",
+    "inactive": "INACTIVE"
+  }
+  }

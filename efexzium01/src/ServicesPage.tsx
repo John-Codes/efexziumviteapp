@@ -1,42 +1,45 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ServicesPage: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="services-container">
       <div className="stars"></div>
       <div className="content">
-        <h1 className="main-title">Our Services</h1>
+        <h1 className="main-title">{t('services.title')}</h1>
         <div className="services-grid">
           <div className="service-card">
-            <h2 className="service-title">AI Consulting</h2>
-            <p className="service-description">Transform your business with cutting-edge AI solutions. Our expert consultants will guide you through the process of integrating AI into your operations, enhancing efficiency and driving innovation.</p>
+            <h2 className="service-title">{t('services.aiConsulting.title')}</h2>
+            <p className="service-description">{t('services.aiConsulting.description')}</p>
             <ul className="service-features">
-              <li>Custom AI strategy development</li>
-              <li>AI implementation and integration</li>
-              <li>AI-driven process optimization</li>
+              <li>{t('services.aiConsulting.features.strategy')}</li>
+              <li>{t('services.aiConsulting.features.implementation')}</li>
+              <li>{t('services.aiConsulting.features.optimization')}</li>
             </ul>
           </div>
           <div className="service-card">
-            <h2 className="service-title">AI Focus</h2>
-            <p className="service-description">Boost your productivity with our AI-powered assistant. Seamlessly search the internet, manage tasks, and stay focused on your goals with intelligent conversation and task tracking.</p>
+            <h2 className="service-title">{t('services.aiFocus.title')}</h2>
+            <p className="service-description">{t('services.aiFocus.description')}</p>
             <ul className="service-features">
-              <li>Intelligent web searching</li>
-              <li>Conversational JIRA integration</li>
-              <li>Personalized goal tracking</li>
+              <li>{t('services.aiFocus.features.search')}</li>
+              <li>{t('services.aiFocus.features.jira')}</li>
+              <li>{t('services.aiFocus.features.goals')}</li>
             </ul>
           </div>
           <div className="service-card">
-            <h2 className="service-title">AI Trading</h2>
-            <p className="service-description">Maximize your trading potential with our advanced AI trading bot. Leverage machine learning algorithms to analyze market trends, identify opportunities, and execute trades with precision.</p>
+            <h2 className="service-title">{t('services.aiTrading.title')}</h2>
+            <p className="service-description">{t('services.aiTrading.description')}</p>
             <ul className="service-features">
-              <li>Real-time market analysis</li>
-              <li>Automated trading strategies</li>
-              <li>Risk management optimization</li>
+              <li>{t('services.aiTrading.features.analysis')}</li>
+              <li>{t('services.aiTrading.features.strategies')}</li>
+              <li>{t('services.aiTrading.features.risk')}</li>
             </ul>
           </div>
         </div>
       </div>
-      <style >{`
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
 
         .services-container {

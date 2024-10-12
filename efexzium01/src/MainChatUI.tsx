@@ -1,4 +1,5 @@
 import React, { useState, useEffect, lazy } from 'react';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import LoadingIndicator from './LoadingIndicator ';
 
@@ -54,14 +55,29 @@ const AI_MODELS = [
 ];
 
 const MainChatUI: React.FC = () => {
+  const { t } = useTranslation();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
-      text: "App Features:\n1. Set goals, get AI-tailored advice\n2. Stay focused, avoid distractions\n3. AI-powered internet searches\n4. Custom AI music for ads\n5. AI-driven insights throughout\n\nBenefits:\n• Personalized goal management\n• Efficient focus\n• Smart internet searches\n• Tailored music solutions\n• Continuous AI support",
+      text: `${t('mainMessage.appFeatures')}
+${t('mainMessage.feature1')}
+${t('mainMessage.feature2')}
+${t('mainMessage.feature3')}
+${t('mainMessage.feature4')}
+${t('mainMessage.feature5')}
+
+${t('mainMessage.benefits')}
+${t('mainMessage.benefit1')}
+${t('mainMessage.benefit2')}
+${t('mainMessage.benefit3')}
+${t('mainMessage.benefit4')}
+${t('mainMessage.benefit5')}`,
       sender: 'bot',
       role: 'assistant',
       model: AI_MODELS[0]
     }
   ]);
+
+
   const [monthGoal, setMonthGoal] = useState<GoalData | null>(null);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(false);

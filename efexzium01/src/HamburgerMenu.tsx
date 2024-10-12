@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface HamburgerMenuProps {
   header: React.ReactNode;
@@ -8,6 +9,7 @@ interface HamburgerMenuProps {
 const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -28,7 +30,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
         <button
           className="hamburger-button"
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
+          aria-label={t('menu.toggleAria')}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -37,12 +39,12 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
           </svg>
         </button>
         <nav className={`menu ${isOpen ? 'open' : ''}`}>
-          <NavLink to="/" className="menu-item" onClick={() => setIsOpen(false)}>Home</NavLink>
-          <NavLink to="/Login" className="menu-item" onClick={() => setIsOpen(false)}>Login</NavLink>
-          <NavLink to="/about" className="menu-item" onClick={() => setIsOpen(false)}>About</NavLink>
-          <NavLink to="/services" className="menu-item" onClick={() => setIsOpen(false)}>Services</NavLink>
-          <NavLink to="/contact" className="menu-item" onClick={() => setIsOpen(false)}>Contact</NavLink>
-          <NavLink to="/Settings" className="menu-item" onClick={() => setIsOpen(false)}>Settings</NavLink>
+          <NavLink to="/" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.home')}</NavLink>
+          <NavLink to="/Login" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.login')}</NavLink>
+          <NavLink to="/about" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.about')}</NavLink>
+          <NavLink to="/services" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.services')}</NavLink>
+          <NavLink to="/contact" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.contact')}</NavLink>
+          <NavLink to="/Settings" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.settings')}</NavLink>
         </nav>
       </div>
       <div className="header-section">{header}</div>

@@ -1,27 +1,30 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const AboutUs: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="about-us-container">
       <div className="stars"></div>
       <div className="content">
-        <h1 className="main-title">About Us</h1>
+        <h1 className="main-title">{t('aboutUs.title')}</h1>
         <div className="services-grid">
           <div className="service-card">
-            <h2 className="service-title">AI Consulting</h2>
-            <p className="service-description">Modernize your business with AI</p>
+            <h2 className="service-title">{t('aboutUs.aiConsulting.title')}</h2>
+            <p className="service-description">{t('aboutUs.aiConsulting.description')}</p>
           </div>
           <div className="service-card">
-            <h2 className="service-title">AI Focus</h2>
-            <p className="service-description">An AI that helps you search the internet and be a conversational JIRA while focusing on your goals</p>
+            <h2 className="service-title">{t('aboutUs.aiFocus.title')}</h2>
+            <p className="service-description">{t('aboutUs.aiFocus.description')}</p>
           </div>
           <div className="service-card">
-            <h2 className="service-title">AI Trading</h2>
-            <p className="service-description">AI trade bot that analyzes the market to seize all opportunities</p>
+            <h2 className="service-title">{t('aboutUs.aiTrading.title')}</h2>
+            <p className="service-description">{t('aboutUs.aiTrading.description')}</p>
           </div>
         </div>
       </div>
-      <style >{`
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
 
         .about-us-container {

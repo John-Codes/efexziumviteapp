@@ -1,0 +1,151 @@
+{
+    "menu": {
+      "toggleAria": "Alternar menú",
+      "home": "Inicio",
+      "login": "Iniciar sesión",
+      "about": "Acerca de",
+      "services": "Servicios",
+      "contact": "Contacto",
+      "settings": "Configuración",
+      "Plans":"Planes"
+    },
+    "mainMessage": {
+      "appFeatures": "Características de la aplicación:",
+      "feature1": "1. Establece metas, obtén consejos personalizados por IA",
+      "feature2": "2. Mantén el enfoque, evita distracciones",
+      "feature3": "3. Búsquedas en internet impulsadas por IA",
+      "feature4": "4. Música personalizada por IA para anuncios",
+      "feature5": "5. Información impulsada por IA en todo momento",
+      "benefits": "Beneficios:",
+      "benefit1": "• Gestión de metas personalizada",
+      "benefit2": "• Enfoque eficiente",
+      "benefit3": "• Búsquedas inteligentes en internet",
+      "benefit4": "• Soluciones musicales a medida",
+      "benefit5": "• Soporte continuo de IA"
+    }
+    ,
+    "aboutUs": {
+      "title": "Sobre Nosotros",
+      "aiConsulting": {
+        "title": "Consultoría de IA",
+        "description": "Moderniza tu negocio con IA"
+      },
+      "aiFocus": {
+        "title": "Enfoque de IA",
+        "description": "Una IA que te ayuda a buscar en internet y ser un JIRA conversacional mientras te enfocas en tus objetivos"
+      },
+      "aiTrading": {
+        "title": "Comercio con IA",
+        "description": "Bot de comercio con IA que analiza el mercado para aprovechar todas las oportunidades"
+      }
+    }
+    ,
+    "services": {
+      "title": "Nuestros Servicios",
+      "aiConsulting": {
+        "title": "Consultoría de IA",
+        "description": "Transforma tu negocio con soluciones de IA de vanguardia. Nuestros consultores expertos te guiarán en el proceso de integración de IA en tus operaciones, mejorando la eficiencia e impulsando la innovación.",
+        "features": {
+          "strategy": "Desarrollo de estrategias personalizadas de IA",
+          "implementation": "Implementación e integración de IA",
+          "optimization": "Optimización de procesos impulsada por IA"
+        }
+      },
+      "aiFocus": {
+        "title": "Enfoque de IA",
+        "description": "Aumenta tu productividad con nuestro asistente impulsado por IA. Busca en internet sin problemas, gestiona tareas y mantén el enfoque en tus objetivos con conversaciones inteligentes y seguimiento de tareas.",
+        "features": {
+          "search": "Búsqueda web inteligente",
+          "jira": "Integración conversacional con JIRA",
+          "goals": "Seguimiento personalizado de objetivos"
+        }
+      },
+      "aiTrading": {
+        "title": "Trading con IA",
+        "description": "Maximiza tu potencial de trading con nuestro avanzado bot de trading con IA. Aprovecha los algoritmos de aprendizaje automático para analizar tendencias del mercado, identificar oportunidades y ejecutar operaciones con precisión.",
+        "features": {
+          "analysis": "Análisis de mercado en tiempo real",
+          "strategies": "Estrategias de trading automatizadas",
+          "risk": "Optimización de la gestión de riesgos"
+        }
+      }
+    }
+    ,
+"contactUs": {
+    "title": "Contáctenos",
+    "form": {
+      "title": "Envíenos un mensaje",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "message": "Mensaje",
+      "submit": "Enviar Mensaje"
+    },
+    "info": {
+      "title": "Póngase en contacto",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "linkedin": "LinkedIn",
+      "youtube": "YouTube"
+    }
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "enable": "Activar Notificaciones",
+    "status": "Las notificaciones están {{status}}",
+    "on": "ACTIVADAS",
+    "off": "DESACTIVADAS"
+  }
+  ,
+  "monthGoals": {
+    "title": "Metas Mensuales",
+    "activate": "Activar Metas Mensuales",
+    "status": "Las Metas Mensuales están {{status}}",
+    "active": "ACTIVAS",
+    "inactive": "INACTIVAS",
+    "enterGoal": "Ingresa tu meta mensual",
+    "saveGoal": "Guardar Meta",
+    "currentGoal": "Meta Actual",
+    "startedOn": "Iniciada el",
+    "daysLeft": "Días restantes",
+    "goalSaved": "Meta guardada: {{goal}}\nFecha de inicio: {{date}}"
+  },
+  "todoList": {
+    "title": "Lista de Tareas",
+    "activate": "Activar Lista de Tareas",
+    "status": "La Lista de Tareas está {{status}}",
+    "active": "ACTIVA",
+    "inactive": "INACTIVA",
+    "task": "Tarea",
+    "dueDate": "Fecha límite",
+    "priority": "Prioridad",
+   
+    "notes": "Notas",
+    "action": "Acción",
+    "delete": "Eliminar",
+    "enterTask": "Ingrese la tarea",
+    "addNotes": "Agregar notas (opcional)",
+    "addTodo": "Agregar Tarea",
+    "saved": "¡Guardado!",
+    "saveToLocalStorage": "Guardar en Almacenamiento Local",
+    "exportToCSV": "Exportar a CSV",
+    "importFromCSV": "Importar desde CSV",
+    "dueDates": {
+      "this week": "Esta Semana",
+      "next week": "Próxima Semana",
+      "this month": "Este Mes",
+      "next month": "Próximo Mes"
+    },
+    "statuses": {
+      "in progress": "En Progreso",
+      "complete": "Completado",
+      "blocked": "Bloqueado"
+    }
+  },
+  "aiSearch": {
+    "title": "Búsqueda IA",
+    "activate": "Activar Búsqueda IA",
+    "status": "La Búsqueda IA está {{status}}",
+    "active": "ACTIVA",
+    "inactive": "INACTIVA"
+  }
+  }

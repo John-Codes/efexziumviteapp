@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import './TodoListSettings.css';
 
 interface Todo {
@@ -15,6 +16,7 @@ interface TodoListSettingsProps {
 }
 
 const TodoListSettings: React.FC<TodoListSettingsProps> = ({ todoListActive, setTodoListActive }) => {
+  const { t } = useTranslation();
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState<Todo>({
     task: '',
@@ -55,12 +57,12 @@ const TodoListSettings: React.FC<TodoListSettingsProps> = ({ todoListActive, set
     localStorage.setItem('todos', JSON.stringify(todos));
     setTimeout(() => {
       setIsSaving(false);
-    }, 1000); // Reset after 1 second
+    }, 1000);
   };
 
   const handleExportCSV = () => {
     const csvContent = "data:text/csv;charset=utf-8," 
-      + "Task,Due Date,Priority,Status,Notes\n"
+      + `${t('todoList.task')},${t('todoList.dueDate')},${t('todoList.priority')},${t('todoList.status')},${t('todoList.notes')}\n`
       + todos.map(todo => 
           `"${todo.task}","${todo.dueDate}","${todo.priority}","${todo.status}","${todo.notes}"`
         ).join("\n");
@@ -83,7 +85,6 @@ const TodoListSettings: React.FC<TodoListSettingsProps> = ({ todoListActive, set
         const lines = content.split('\n');
         const newTodos: Todo[] = [];
         
-        // Skip the header row
         for (let i = 1; i < lines.length; i++) {
           const values = lines[i].split(',').map(value => value.trim().replace(/^"|"$/g, ''));
           if (values.length === 5) {
@@ -106,9 +107,9 @@ const TodoListSettings: React.FC<TodoListSettingsProps> = ({ todoListActive, set
 
   return (
     <div className="setting-card">
-      <h2 className="setting-title">Todo List</h2>
+      <h2 className="setting-title">{t('todoList.title')}</h2>
       <div className="toggle-container">
-        <span className="toggle-label">Activate Todo List</span>
+        <span className="toggle-label">{t('todoList.activate')}</span>
         <div className="switch-container">
           <label className="switch">
             <input
@@ -120,31 +121,35 @@ const TodoListSettings: React.FC<TodoListSettingsProps> = ({ todoListActive, set
           </label>
         </div>
       </div>
-      <p className="setting-status">Todo List is {todoListActive ? 'ACTIVE' : 'INACTIVE'}</p>
+      <p className="setting-status">
+        {t('todoList.status', { status: todoListActive ? t('todoList.active') : t('todoList.inactive') })}
+      </p>
       {todoListActive && (
         <div className="todo-list-container">
           <div className="todo-table-container">
             <table className="todo-table">
               <thead>
                 <tr>
-                  <th>Task</th>
-                  <th>Due Date</th>
-                  <th>Priority</th>
-                  <th>Status</th>
-                  <th>Notes</th>
-                  <th>Action</th>
+                  <th>{t('todoList.task')}</th>
+                  <th>{t('todoList.dueDate')}</th>
+                  <th>{t('todoList.priority')}</th>
+                  <th>{t('todoList.status')}</th>
+                  <th>{t('todoList.notes')}</th>
+                  <th>{t('todoList.action')}</th>
                 </tr>
               </thead>
               <tbody>
                 {todos.map((todo, index) => (
                   <tr key={index}>
                     <td>{todo.task}</td>
-                    <td>{todo.dueDate}</td>
+                    <td>{t(`todoList.dueDates.${todo.dueDate}`)}</td>
                     <td>{todo.priority}</td>
-                    <td>{todo.status}</td>
+                    <td>{t(`todoList.statuses.${todo.status}`)}</td>
                     <td>{todo.notes}</td>
                     <td>
-                      <button className="delete-button" onClick={() => handleDeleteTodo(index)}>Delete</button>
+                      <button className="delete-button" onClick={() => handleDeleteTodo(index)}>
+                        {t('todoList.delete')}
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -155,7 +160,7 @@ const TodoListSettings: React.FC<TodoListSettingsProps> = ({ todoListActive, set
             <input
               type="text"
               className="text-input"
-              placeholder="Enter task"
+              placeholder={t('todoList.enterTask')}
               value={newTodo.task}
               onChange={(e) => setNewTodo({...newTodo, task: e.target.value})}
             />
@@ -164,46 +169,44 @@ const TodoListSettings: React.FC<TodoListSettingsProps> = ({ todoListActive, set
               value={newTodo.dueDate}
               onChange={(e) => setNewTodo({...newTodo, dueDate: e.target.value})}
             >
-              <option value="this week">This Week</option>
-              <option value="next week">Next Week</option>
-              <option value="this month">This Month</option>
-              <option value="next month">Next Month</option>
+              <option value="this week">{t('todoList.dueDates.this week')}</option>
+              <option value="next week">{t('todoList.dueDates.next week')}</option>
+              <option value="this month">{t('todoList.dueDates.this month')}</option>
+              <option value="next month">{t('todoList.dueDates.next month')}</option>
             </select>
             <select
               className="text-input"
               value={newTodo.priority}
               onChange={(e) => setNewTodo({...newTodo, priority: e.target.value})}
             >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
+              {[1, 2, 3, 4, 5].map((priority) => (
+                <option key={priority} value={priority.toString()}>{priority}</option>
+              ))}
             </select>
             <select
               className="text-input"
               value={newTodo.status}
               onChange={(e) => setNewTodo({...newTodo, status: e.target.value})}
             >
-              <option value="in progress">In Progress</option>
-              <option value="complete">Complete</option>
-              <option value="blocked">Blocked</option>
+              <option value="in progress">{t('todoList.statuses.in progress')}</option>
+              <option value="complete">{t('todoList.statuses.complete')}</option>
+              <option value="blocked">{t('todoList.statuses.blocked')}</option>
             </select>
             <textarea
               className="text-input"
-              placeholder="Add notes (optional)"
+              placeholder={t('todoList.addNotes')}
               value={newTodo.notes}
               onChange={(e) => setNewTodo({...newTodo, notes: e.target.value})}
             ></textarea>
             <div className="button-container">
-              <button className="save-button" onClick={handleAddTodo}>Add Todo</button>
+              <button className="save-button" onClick={handleAddTodo}>{t('todoList.addTodo')}</button>
               <button 
                 className={`save-button ${isSaving ? 'saving' : ''}`} 
                 onClick={handleSaveLocally}
               >
-                {isSaving ? 'Saved!' : 'Save to Local Storage'}
+                {isSaving ? t('todoList.saved') : t('todoList.saveToLocalStorage')}
               </button>
-              <button className="save-button" onClick={handleExportCSV}>Export to CSV</button>
+              <button className="save-button" onClick={handleExportCSV}>{t('todoList.exportToCSV')}</button>
               <input
                 type="file"
                 accept=".csv"
@@ -212,7 +215,7 @@ const TodoListSettings: React.FC<TodoListSettingsProps> = ({ todoListActive, set
                 onChange={handleImportCSV}
               />
               <button className="save-button" onClick={() => fileInputRef.current?.click()}>
-                Import from CSV
+                {t('todoList.importFromCSV')}
               </button>
             </div>
           </div>
