@@ -56,7 +56,7 @@ const AI_MODELS = [
 const MainChatUI: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
-      text: "Hello, World! Welcome to the AI Assistant. How can I help you today?",
+      text: "App Features:\n1. Set goals, get AI-tailored advice\n2. Stay focused, avoid distractions\n3. AI-powered internet searches\n4. Custom AI music for ads\n5. AI-driven insights throughout\n\nBenefits:\n• Personalized goal management\n• Efficient focus\n• Smart internet searches\n• Tailored music solutions\n• Continuous AI support",
       sender: 'bot',
       role: 'assistant',
       model: AI_MODELS[0]
