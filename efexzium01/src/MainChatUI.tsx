@@ -344,9 +344,7 @@ const MainChatUI: React.FC = () => {
     setMessages(prevMessages => prevMessages.filter((_, i) => i !== index));
   };
 
-  if (!isComponentsLoaded) {
-    return <LightSpeedBackground />;
-  }
+  
 
   return (
     <div className="main-chat-container relative">

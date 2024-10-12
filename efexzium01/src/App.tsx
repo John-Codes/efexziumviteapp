@@ -12,48 +12,48 @@ const LoginPage = lazy(() => import('./loginPage'));
 const SettingsPage = lazy(() => import('./settingsPage'));
 
 // LoadingWrapper component to manage loading state
-const LoadingWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true);
+const LoadingWrapper: React.FC<{ children: React.ReactNode; setIsLoading: React.Dispatch<React.SetStateAction<boolean>> }> = ({ children, setIsLoading }) => {
   const location = useLocation();
 
   useEffect(() => {
     setIsLoading(true);
     const timer = setTimeout(() => setIsLoading(false), 1000); // Simulate loading time
     return () => clearTimeout(timer);
-  }, [location]);
-
-  if (isLoading) {
-    return <LightSpeedBackground />;
-  }
+  }, [location, setIsLoading]);
 
   return <>{children}</>;
 };
 
 const App: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <Router>
       <div className="app">
         <Suspense fallback={<LightSpeedBackground />}>
           <Routes>
             <Route path="*" element={
-              <LoadingWrapper>
-                <HamburgerMenu header="914AI" />
-                <main className="main-content">
-                  <Routes>
-                    <Route path="/" element={<MainChatUI />} />
-                    <Route path="/Login" element={<LoginPage />} />
-                    <Route path="/about" element={<AboutUs />} />
-                    <Route path="/services" element={<ServicesPage />} />
-                    <Route path="/contact" element={<ContactUsPage />} />
-                    <Route path="/settings" element={<SettingsPage />} />
-                  </Routes>
-                </main>
-              </LoadingWrapper>
+              <>
+                {isLoading && <LightSpeedBackground />}
+                <LoadingWrapper setIsLoading={setIsLoading}>
+                  {!isLoading && <HamburgerMenu header="914AI" />}
+                  <main className="main-content">
+                    <Routes>
+                      <Route path="/" element={<MainChatUI />} />
+                      <Route path="/Login" element={<LoginPage />} />
+                      <Route path="/about" element={<AboutUs />} />
+                      <Route path="/services" element={<ServicesPage />} />
+                      <Route path="/contact" element={<ContactUsPage />} />
+                      <Route path="/settings" element={<SettingsPage />} />
+                    </Routes>
+                  </main>
+                </LoadingWrapper>
+              </>
             } />
           </Routes>
         </Suspense>
       </div>
-      <style  >{`
+      <style>{`
         html, body, #root {
           height: 100%;
           margin: 0;
