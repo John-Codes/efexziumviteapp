@@ -62,7 +62,8 @@ const App: React.FC = () => {
                 <>
                   {isLoading && <LightSpeedBackground />}
                   <LoadingWrapper setIsLoading={setIsLoading}>
-                    {!isLoading && <HamburgerMenu header="914AI" />}
+                   
+                    <HamburgerMenu header="914AI"/>
                     <main className="main-content">
                       <Routes>
                         <Route path="/" element={<MainChatUI />} />
