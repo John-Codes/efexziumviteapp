@@ -6,7 +6,7 @@ import InterstellarBackground from './InterstellarBackground';
 
 const MessageViewArea = lazy(() => import("./MessageViewArea"));
 const MessageInput = lazy(() => import("./MessageInput"));
-const LightSpeedBackground = lazy(() => import('./LightSpeedBackground'));
+
 
 interface ChatMessage {
   text: string;
@@ -66,7 +66,7 @@ const MainChatUI: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState(AI_MODELS[0]);
-  const [isComponentsLoaded, setIsComponentsLoaded] = useState(false);
+ 
   const [aiSearchActive, setAISearchActive] = useState(false);
 
   const OPENROUTER_API_KEY = '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';
@@ -79,9 +79,7 @@ const MainChatUI: React.FC = () => {
     loadAISearchPreference();
     const intervalId = setInterval(loadMonthGoal, 60000);
 
-    setTimeout(() => {
-      setIsComponentsLoaded(true);
-    }, 2000);
+   
 
     return () => clearInterval(intervalId);
   }, []);
