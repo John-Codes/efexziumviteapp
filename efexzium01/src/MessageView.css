@@ -29,6 +29,8 @@
 }
 
 .message-item {
+  margin-left: 2rem;
+  margin-right: 2rem;
   margin-bottom: 1rem;
   padding: 0.5rem;
   background-color: rgba(0, 0, 0, 0.6);

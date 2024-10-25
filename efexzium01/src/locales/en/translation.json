@@ -148,5 +148,30 @@
     "status": "AI Search is {{status}}",
     "active": "ACTIVE",
     "inactive": "INACTIVE"
-  }
+  },
+  "plans": {
+      "title": "Choose Your Plan",
+      "basic": {
+        "title": "Free Plan",
+        "description": "Get started with our ad-supported free plan",
+        "price": "Free",
+        "features": [
+          "Basic features",
+          "Ad-supported",
+          "Limited storage",
+          "Community support"
+        ]
+      },
+      "premium": {
+        "title": "Premium Plan",
+        "description": "Unlock all features with our premium plan",
+        "price": "$5/month",
+        "features": [
+          "All features included",
+          "Ad-free experience",
+          "Unlimited storage",
+          "Priority support"
+        ]
+      }
+    }
   }

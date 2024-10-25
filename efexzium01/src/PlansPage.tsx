@@ -69,9 +69,12 @@ const Plans: React.FC = () => {
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
 
   .plans-container {
-    position: relative;
-    min-height: 100vh;
-    overflow: hidden;
+    position: fixed; /* Changed from relative to fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto; /* Added to handle content overflow */
     color: #ffffff;
     font-family: 'Gotham', 'Montserrat', sans-serif;
     background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
@@ -83,9 +86,10 @@ const Plans: React.FC = () => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Changed from center to flex-start */
     min-height: 100vh;
     padding: 2rem;
+    padding-top: 8rem; /* Added to ensure 8rem margin for heading */
   }
 
   .main-title {
@@ -112,6 +116,7 @@ const Plans: React.FC = () => {
     padding: 2rem;
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* Added for Safari support */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -152,6 +157,7 @@ const Plans: React.FC = () => {
     width: 100%;
     height: 120%;
     transform: rotate(-45deg);
+    pointer-events: none; /* Added to ensure clicks pass through */
   }
 
   .stars {
@@ -182,7 +188,18 @@ const Plans: React.FC = () => {
     }
   }
 
+  /* Added styles for glass effect menus */
+  :global(.hamburger-menu) {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+  }
+
   @media (max-width: 768px) {
+    .content {
+      padding-top: 6rem; /* Slightly reduced top padding for mobile */
+    }
+    
     .main-title {
       font-size: 2rem;
     }

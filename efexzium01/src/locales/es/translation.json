@@ -147,5 +147,30 @@
     "status": "La Búsqueda IA está {{status}}",
     "active": "ACTIVA",
     "inactive": "INACTIVA"
-  }
+  },
+  "plans": {
+      "title": "Elige tu Plan",
+      "basic": {
+        "title": "Plan Gratuito",
+        "description": "Comienza con nuestro plan gratuito con anuncios",
+        "price": "Gratis",
+        "features": [
+          "Funciones básicas",
+          "Con anuncios",
+          "Almacenamiento limitado",
+          "Soporte comunitario"
+        ]
+      },
+      "premium": {
+        "title": "Plan Premium",
+        "description": "Desbloquea todas las funciones con nuestro plan premium",
+        "price": "$5/mes",
+        "features": [
+          "Todas las funciones incluidas",
+          "Sin anuncios",
+          "Almacenamiento ilimitado",
+          "Soporte prioritario"
+        ]
+      }
+    }
   }

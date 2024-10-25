@@ -28,12 +28,15 @@ const AboutUs: React.FC = () => {
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
 
         .about-us-container {
-          position: relative;
-          min-height: 100vh;
-          overflow: hidden;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
           color: #ffffff;
           font-family: 'Gotham', 'Montserrat', sans-serif;
           background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+          overflow-y: auto;
         }
 
         .content {
@@ -42,9 +45,10 @@ const AboutUs: React.FC = () => {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;  /* Changed from center to flex-start */
           min-height: 100vh;
           padding: 2rem;
+          padding-top: 8rem;  /* Added more top padding */
         }
 
         .main-title {
@@ -131,6 +135,10 @@ const AboutUs: React.FC = () => {
         }
 
         @media (max-width: 768px) {
+          .content {
+            padding-top: 6rem;  /* Slightly less padding on mobile */
+          }
+          
           .main-title {
             font-size: 2rem;
           }

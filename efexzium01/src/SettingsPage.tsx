@@ -36,6 +36,7 @@ const SettingsPage: React.FC = () => {
           @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
           
           .settings-container {
+            
             min-height: 100vh;
             width: 100%;
             color: #ffffff;
@@ -57,6 +58,7 @@ const SettingsPage: React.FC = () => {
           }
           
           .main-title {
+          margin-top:8rem;
             font-size: 2rem;
             font-weight: 700;
             letter-spacing: 0.1em;

@@ -9,16 +9,34 @@ interface FormData {
 }
 
 const GlobalStyle = createGlobalStyle`
-  body {
+  * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
     font-family: 'Gotham', 'Montserrat', sans-serif;
+  }
+
+  #root {
+    height: 100%;
   }
 `;
 
 const LoginContainer = styled.div`
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   min-height: 100vh;
+  width: 100%;
   overflow: hidden;
   color: #ffffff;
   background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
@@ -64,12 +82,13 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 8rem 2rem 2rem 2rem;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
-    padding: 1rem;
+    padding: 6rem 1rem 1rem 1rem;
   }
 `;
 
@@ -79,12 +98,12 @@ const MainTitle = styled.h1`
   letter-spacing: 0.15em;
   text-transform: uppercase;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
 
   @media (max-width: 768px) {
     font-size: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 `;
 
@@ -133,6 +152,15 @@ const Input = styled.input`
   font-size: 1rem;
   box-sizing: border-box;
 
+  &:hover, &:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    outline: none;
+  }
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
   @media (max-width: 768px) {
     padding: 0.6rem;
     font-size: 0.9rem;
@@ -150,7 +178,7 @@ const SubmitButton = styled.button`
   font-weight: 600;
   transition: background-color 0.3s ease;
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 
   &:hover {
     background-color: #45a049;
@@ -169,7 +197,8 @@ const SocialLogin = styled.div`
 const SocialButtons = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
+  margin-top: 1rem;
 `;
 
 const SocialButton = styled.button`
@@ -206,11 +235,19 @@ const GoogleButton = styled(SocialButton)`
 const FacebookButton = styled(SocialButton)`
   background-color: #4267B2;
   color: white;
+
+  &:hover {
+    background-color: #365899;
+  }
 `;
 
 const AppleButton = styled(SocialButton)`
   background-color: #000000;
   color: white;
+
+  &:hover {
+    background-color: #1a1a1a;
+  }
 `;
 
 const LoginPage: React.FC = () => {
@@ -256,6 +293,7 @@ const LoginPage: React.FC = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   required
+                  placeholder="Enter your email"
                 />
               </FormGroup>
               <FormGroup>
@@ -267,6 +305,7 @@ const LoginPage: React.FC = () => {
                   value={formData.password}
                   onChange={handleInputChange}
                   required
+                  placeholder="Enter your password"
                 />
               </FormGroup>
               <SubmitButton type="submit">Login</SubmitButton>

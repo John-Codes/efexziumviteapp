@@ -41,10 +41,12 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
         <nav className={`menu ${isOpen ? 'open' : ''}`}>
           <NavLink to="/" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.home')}</NavLink>
           <NavLink to="/Login" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.login')}</NavLink>
+          <NavLink to="/led" className="menu-item" onClick={() => setIsOpen(false)}>LED Signs</NavLink>
           <NavLink to="/about" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.about')}</NavLink>
           <NavLink to="/services" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.services')}</NavLink>
           <NavLink to="/contact" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.contact')}</NavLink>
-          <NavLink to="/Settings" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.settings')}</NavLink>
+          <NavLink to="/settings" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.settings')}</NavLink>
+          <NavLink to="/plans" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.plans')}</NavLink>
         </nav>
       </div>
       <div className="header-section">{header}</div>
@@ -58,86 +60,113 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
             top: 0;
             left: 0;
             right: 0;
-            background-color: #111827;
+            background-color: rgba(0, 0, 0, 0.03);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
           }
+
           .header-section {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.95);
             font-family: 'Gotham', 'Montserrat', sans-serif;
             font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: 0.15em;
             text-transform: uppercase;
             text-align: center;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            text-shadow: 
+              0 0 10px rgba(255, 255, 255, 0.5),
+              0 0 20px rgba(255, 255, 255, 0.3);
             white-space: nowrap;
+            transition: all 0.3s ease;
           }
+
           .header-section:hover {
             letter-spacing: 0.2em;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
           }
+
           .hamburger-menu {
             position: relative;
             z-index: 1001;
           }
+
           .spacer {
             width: 24px;
           }
+
           .hamburger-button {
             background: none;
             border: none;
             cursor: pointer;
             padding: 10px;
-            color: #93c5fd;
-            transition: color 0.2s ease;
+            color: rgba(255, 255, 255, 0.9);
+            transition: all 0.2s ease;
           }
+
           .hamburger-button:hover {
-            color: #bfdbfe;
+            color: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
           }
+
           .hamburger-button:focus {
             outline: none;
-            box-shadow: 0 0 0 2px rgba(147, 197, 253, 0.5);
+            border-radius: 4px;
           }
+
           .menu {
             position: absolute;
             top: 100%;
             left: 0;
             margin-top: 8px;
             width: 200px;
-            background-color: rgba(17, 24, 39, 0.9);
-            border: 1px solid #4b5563;
-            border-radius: 4px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
-            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-            backdrop-filter: blur(5px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 
+              0 4px 6px rgba(0, 0, 0, 0.4),
+              0 0 20px rgba(0, 0, 0, 0.3);
           }
+
           .menu.open {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
           }
+
           .menu-item {
             display: block;
-            padding: 10px 15px;
-            color: #ffffff;
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
-            transition: background-color 0.2s ease;
+            transition: all 0.2s ease;
             white-space: nowrap;
+            font-weight: 500;
+            border-radius: 8px;
+            margin: 4px 8px;
+            position: relative;
+            overflow: hidden;
           }
+
           .menu-item:hover {
-            background-color: rgba(55, 65, 81, 0.8);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 1);
+            transform: translateX(4px);
           }
+
           @media (max-width: 768px) {
             .menu {
               width: auto;
