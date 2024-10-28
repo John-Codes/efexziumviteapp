@@ -22,6 +22,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     overflow-x: hidden;
     font-family: 'Gotham', 'Montserrat', sans-serif;
+    background: #090A0F;
   }
 
   #root {
@@ -30,24 +31,22 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const LoginContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   min-height: 100vh;
   width: 100%;
-  overflow: hidden;
+  overflow-y: auto;
   color: #ffffff;
   background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+  background-attachment: fixed;
+  margin-top: -100px;
+  padding-top: 100px;
 `;
 
 const Stars = styled.div`
   position: fixed;
-  top: 0;
+  top: -100px;
   left: 0;
   width: 100%;
-  height: 120%;
+  height: calc(120% + 100px);
   transform: rotate(-45deg);
   background-image: 
     radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
@@ -60,6 +59,7 @@ const Stars = styled.div`
   background-size: 200px 200px;
   animation: zoom 5s infinite;
   opacity: 0;
+  pointer-events: none;
 
   @keyframes zoom {
     0% {
@@ -83,14 +83,16 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100vh;
-  padding: 8rem 2rem 2rem 2rem;
+  min-height: 150vh;
+  padding: 8rem 2rem 8rem 2rem;
   box-sizing: border-box;
 
   @media (max-width: 768px) {
-    padding: 6rem 1rem 1rem 1rem;
+    padding: 6rem 1rem 6rem 1rem;
   }
 `;
+
+// Rest of the styled components remain the same...
 
 const MainTitle = styled.h1`
   font-size: 3rem;
@@ -267,12 +269,10 @@ const LoginPage: React.FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Login submitted:', formData);
-    // Here you would typically send the login data to your backend
   };
 
   const handleSocialLogin = (provider: string) => {
     console.log(`Logging in with ${provider}`);
-    // Implement the social login logic here
   };
 
   return (

@@ -35,7 +35,7 @@ export default function SolutionOverview() {
                 </div>
               </div>
             </div>
-            {/* Feature badges - Repositioned and resized for mobile */}
+            {/* Feature badges */}
             <div className="flex flex-wrap justify-center gap-2 mt-4 lg:absolute lg:-right-2 lg:top-4 lg:space-y-2 lg:flex-col">
               <div className="bg-blue-500/90 text-white px-3 py-1 rounded-full lg:rounded-l-full text-xs sm:text-sm font-semibold backdrop-blur-sm">
                 RGB Colors
@@ -79,18 +79,23 @@ export default function SolutionOverview() {
           </div>
         </div>
 
-        {/* Pricing highlight */}
+        {/* Pricing highlight with PayPal Link */}
         <div className="max-w-3xl mx-auto text-center p-6 sm:p-8 rounded-xl sm:rounded-2xl bg-gradient-to-r from-green-900/20 to-blue-900/20 border border-green-500/20">
           <DollarSign className="w-8 h-8 sm:w-12 sm:h-12 text-green-400 mx-auto mb-3 sm:mb-4" />
           <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">
-            Just $2/Day All-Inclusive
+            Just $20/Day All-Inclusive
           </h3>
           <p className="text-gray-300 text-sm sm:text-base mb-4 sm:mb-6">
             Get everything you need to start advertising effectively: LED sign rental, custom content creation, and ongoing support.
           </p>
-          <button className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-green-600 to-blue-600 rounded-full text-white font-semibold text-base sm:text-lg hover:shadow-lg hover:shadow-green-500/20 transform hover:-translate-y-1 transition-all">
+          <a 
+            href="https://www.paypal.com/ncp/payment/4Y3EVTGZ4HZNA"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-green-600 to-blue-600 rounded-full text-white font-semibold text-base sm:text-lg hover:shadow-lg hover:shadow-green-500/20 transform hover:-translate-y-1 transition-all"
+          >
             Start Your 30-Day Trial
-          </button>
+          </a>
         </div>
       </div>
     </div>

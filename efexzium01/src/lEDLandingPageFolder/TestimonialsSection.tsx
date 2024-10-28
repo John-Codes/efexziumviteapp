@@ -1,15 +1,45 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { Star, ChevronLeft, ChevronRight, Quote, TrendingUp, Sparkles, Target } from 'lucide-react';
 
-export default function TestimonialsSection() {
-  const testimonials = [
+// Import SVGs from assets
+import SarahAvatar from "../assets/testimonials/sarah.svg";
+import MichaelAvatar from "../assets/testimonials/michael.svg";
+import EmilyAvatar from "../assets/testimonials/emily.svg";
+
+// Types
+interface Metric {
+  label: string;
+  value: string;
+  icon: React.ReactNode;
+}
+
+interface Testimonial {
+  quote: string;
+  author: string;
+  position: string;
+  avatar: string;
+  rating: number;
+  metric: Metric;
+}
+
+// Optional: Add loading and error handling for images
+interface ImageState {
+  isLoading: boolean;
+  hasError: boolean;
+}
+
+export default function TestimonialsSection(): JSX.Element {
+  const [imageStates, setImageStates] = useState<Record<number, ImageState>>({});
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+
+  const testimonials: Testimonial[] = [
     {
-      quote: "Our LED sign rental from LightAds has increased foot traffic and sales by 20%!",
+      quote: "Our LED sign rental from 914AI has increased foot traffic and sales by 20%!",
       author: "Sarah Johnson",
       position: "Owner, The Coffee House",
-      avatar: "/api/placeholder/100/100",
+      avatar: SarahAvatar,
       rating: 5,
-      metric: { 
+      metric: {
         label: "Sales Increase",
         value: "20%",
         icon: <TrendingUp className="w-5 h-5" />
@@ -19,7 +49,7 @@ export default function TestimonialsSection() {
       quote: "The art and video creation services were top-notch and really made our ad stand out",
       author: "Michael Chen",
       position: "Marketing Director, Urban Fitness",
-      avatar: "/api/placeholder/100/100",
+      avatar: MichaelAvatar,
       rating: 5,
       metric: {
         label: "Creative Services",
@@ -31,7 +61,7 @@ export default function TestimonialsSection() {
       quote: "We've tried other advertising methods, but this is by far the most effective and cost-efficient way to reach our target audience",
       author: "Emily Rodriguez",
       position: "CEO, Local Eats",
-      avatar: "/api/placeholder/100/100",
+      avatar: EmilyAvatar,
       rating: 5,
       metric: {
         label: "ROI Rating",
@@ -41,14 +71,53 @@ export default function TestimonialsSection() {
     }
   ];
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  const handleImageLoad = (index: number): void => {
+    setImageStates(prev => ({
+      ...prev,
+      [index]: { isLoading: false, hasError: false }
+    }));
+  };
 
-  const nextTestimonial = () => {
+  const handleImageError = (index: number): void => {
+    setImageStates(prev => ({
+      ...prev,
+      [index]: { isLoading: false, hasError: true }
+    }));
+  };
+
+  const nextTestimonial = (): void => {
     setActiveIndex((prev) => (prev + 1) % testimonials.length);
   };
 
-  const prevTestimonial = () => {
+  const prevTestimonial = (): void => {
     setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const renderAvatar = (testimonial: Testimonial, index: number): JSX.Element => {
+    const imageState = imageStates[index] || { isLoading: true, hasError: false };
+
+    return (
+      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-purple-500/50 overflow-hidden relative">
+        {imageState.isLoading && (
+          <div className="absolute inset-0 bg-gray-800 animate-pulse" />
+        )}
+        {imageState.hasError ? (
+          <div className="w-full h-full bg-gray-800 flex items-center justify-center text-gray-500">
+            {testimonial.author.charAt(0)}
+          </div>
+        ) : (
+          <img
+            src={testimonial.avatar}
+            alt={`${testimonial.author} - ${testimonial.position}`}
+            className={`w-full h-full object-cover transition-opacity duration-300 ${
+              imageState.isLoading ? 'opacity-0' : 'opacity-100'
+            }`}
+            onLoad={() => handleImageLoad(index)}
+            onError={() => handleImageError(index)}
+          />
+        )}
+      </div>
+    );
   };
 
   return (
@@ -105,11 +174,7 @@ export default function TestimonialsSection() {
 
               {/* Author Info */}
               <div className="flex items-center gap-3 sm:gap-4">
-                <img
-                  src={testimonials[activeIndex].avatar}
-                  alt={testimonials[activeIndex].author}
-                  className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-purple-500/50"
-                />
+                {renderAvatar(testimonials[activeIndex], activeIndex)}
                 <div>
                   <h4 className="text-lg sm:text-xl font-semibold text-white">
                     {testimonials[activeIndex].author}
@@ -121,17 +186,19 @@ export default function TestimonialsSection() {
               </div>
             </div>
 
-            {/* Navigation Buttons - Hidden on mobile, shown on larger screens */}
+            {/* Navigation Buttons - Desktop */}
             <div className="hidden sm:flex absolute top-1/2 -translate-y-1/2 left-0 right-0 justify-between pointer-events-none">
               <button
                 onClick={prevTestimonial}
-                className="transform -translate-x-1/2 p-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white pointer-events-auto hover:shadow-lg hover:shadow-purple-500/20 transition-all"
+                aria-label="Previous testimonial"
+                className="transform -translate-x-1/2 p-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white pointer-events-auto hover:shadow-lg hover:shadow-purple-500/20 transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
               <button
                 onClick={nextTestimonial}
-                className="transform translate-x-1/2 p-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white pointer-events-auto hover:shadow-lg hover:shadow-purple-500/20 transition-all"
+                aria-label="Next testimonial"
+                className="transform translate-x-1/2 p-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white pointer-events-auto hover:shadow-lg hover:shadow-purple-500/20 transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
               >
                 <ChevronRight className="w-6 h-6" />
               </button>
@@ -144,6 +211,7 @@ export default function TestimonialsSection() {
               <button
                 key={index}
                 onClick={() => setActiveIndex(index)}
+                aria-label={`Go to testimonial ${index + 1}`}
                 className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-colors ${
                   index === activeIndex ? 'bg-purple-500' : 'bg-gray-600'
                 }`}
@@ -156,13 +224,15 @@ export default function TestimonialsSection() {
         <div className="flex justify-center gap-4 mt-6 sm:hidden">
           <button
             onClick={prevTestimonial}
-            className="p-2 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white"
+            aria-label="Previous testimonial"
+            className="p-2 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={nextTestimonial}
-            className="p-2 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white"
+            aria-label="Next testimonial"
+            className="p-2 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -171,7 +241,9 @@ export default function TestimonialsSection() {
         {/* Call to Action */}
         <div className="text-center mt-8 sm:mt-12 md:mt-16">
           <p className="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">Join these successful businesses</p>
-          <button className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full text-white font-semibold text-base sm:text-lg hover:shadow-lg hover:shadow-purple-500/20 transform hover:-translate-y-1 transition-all">
+          <button 
+            className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full text-white font-semibold text-base sm:text-lg hover:shadow-lg hover:shadow-purple-500/20 transform hover:-translate-y-1 transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+          >
             Start Your Success Story
           </button>
         </div>

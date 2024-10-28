@@ -3,7 +3,7 @@ import NotificationSettings from './NotificationSettings';
 import MonthGoalSettings from './MonthGoalSettings';
 import TodoListSettings from './TodoListSettings';
 import AISearchSettings from './AISearchSettings';
-import DenseStarryBackground from './DenseStarryBackground';
+import DenseStarryBackground from '../../Backgrounds/DenseStarryBackground';
 
 const SettingsPage: React.FC = () => {
   const [notifications, setNotifications] = useState(true);

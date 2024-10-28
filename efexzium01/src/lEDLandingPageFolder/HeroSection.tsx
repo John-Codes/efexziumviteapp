@@ -1,4 +1,3 @@
-
 import { ArrowRight, Sparkles } from 'lucide-react';
 import './HeroSection.css';
 
@@ -16,7 +15,7 @@ export default function HeroSection() {
         <h1 className="hero-title">
           Unlock the Power of LED Advertising
           <div className="hero-subtitle">
-            from just <span className="price">$2/day</span>
+            from just <span className="price">$20/day</span>
           </div>
         </h1>
 
@@ -39,11 +38,16 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* CTA Button */}
-        <button className="cta-button">
+        {/* PayPal Link Button */}
+        <a 
+          href="https://www.paypal.com/ncp/payment/4Y3EVTGZ4HZNA"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="cta-button"
+        >
           <span>Start Advertising Today</span>
           <ArrowRight className="arrow-icon" />
-        </button>
+        </a>
 
         {/* Floating particles effect */}
         <div className="particles">

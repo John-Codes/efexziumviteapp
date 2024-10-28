@@ -57,7 +57,7 @@ export default function FeaturesAndBenefits() {
       title: "Cost-Effective",
       description: "Affordable advertising that delivers results",
       benefits: [
-        "Just $2/day all-inclusive",
+        "Just $20/day all-inclusive",
         "No hidden fees",
         "Free maintenance",
         "Cancel anytime"

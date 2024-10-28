@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import LoadingIndicator from './LoadingIndicator ';
 
-import InterstellarBackground from './InterstellarBackground';
+import InterstellarBackground from '../../Backgrounds/InterstellarBackground';
 
 const MessageViewArea = lazy(() => import("./MessageViewArea"));
-const MessageInput = lazy(() => import("./MessageInput"));
+const MessageInput = lazy(() => import("./MessageInputBox/MessageInput"));
 
 
 interface ChatMessage {

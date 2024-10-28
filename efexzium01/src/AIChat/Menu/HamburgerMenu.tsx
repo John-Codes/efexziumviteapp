@@ -40,13 +40,13 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
         </button>
         <nav className={`menu ${isOpen ? 'open' : ''}`}>
           <NavLink to="/" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.home')}</NavLink>
-          <NavLink to="/Login" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.login')}</NavLink>
           <NavLink to="/led" className="menu-item" onClick={() => setIsOpen(false)}>LED Signs</NavLink>
+          <NavLink to="/Login" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.login')}</NavLink>
           <NavLink to="/about" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.about')}</NavLink>
           <NavLink to="/services" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.services')}</NavLink>
           <NavLink to="/contact" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.contact')}</NavLink>
           <NavLink to="/settings" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.settings')}</NavLink>
-          <NavLink to="/plans" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.plans')}</NavLink>
+          {/* <NavLink to="/plans" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.plans')}</NavLink> */}
         </nav>
       </div>
       <div className="header-section">{header}</div>

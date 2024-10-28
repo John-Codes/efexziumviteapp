@@ -10,18 +10,18 @@
       "plans":"Plans"
     },
     "mainMessage": {
-      "appFeatures": "App Features:",
+      "appFeatures": "\n App Features:",
       "feature1": "1. Set goals, get AI-tailored advice",
       "feature2": "2. Stay focused, avoid distractions",
       "feature3": "3. AI-powered internet searches",
       "feature4": "4. Custom AI music for ads",
       "feature5": "5. AI-driven insights throughout",
-      "benefits": "Benefits:",
-      "benefit1": "• Personalized goal management",
-      "benefit2": "• Efficient focus",
-      "benefit3": "• Smart internet searches",
-      "benefit4": "• Tailored music solutions",
-      "benefit5": "• Continuous AI support"
+      "benefits": "\n Benefits: \n",  
+      "benefit1": "• Personalized goal management \n",
+      "benefit2": "• Efficient focus \n",
+      "benefit3": "• Smart internet searches \n",
+      "benefit4": "• Tailored music solutions \n",
+      "benefit5": "• Continuous AI support \n"
     }
 ,
     "aboutUs": {

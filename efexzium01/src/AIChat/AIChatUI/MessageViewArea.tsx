@@ -21,15 +21,15 @@ interface MessageViewAreaProps {
   onDeleteMessage: (index: number) => void;
 }
 
-interface MessageFooterProps {
-  message: ChatMessage;
-  selectedModel: string;
-  aiModels: string[];
-  onModelChange: (model: string) => void;
-  onDelete: () => void;
-  onLikeToggle: ((liked: boolean | null) => void) | null;  // Changed to accept null
-  showLikeDislike: boolean;
-}
+// interface MessageFooterProps {
+//   message: ChatMessage;
+//   selectedModel: string;
+//   aiModels: string[];
+//   onModelChange: (model: string) => void;
+//   onDelete: () => void;
+//   onLikeToggle: ((liked: boolean | null) => void) | null;  // Changed to accept null
+//   showLikeDislike: boolean;
+// }
 
 const CopyButton: React.FC<{ text: string }> = ({ text }) => {
   const [isCopied, setIsCopied] = useState(false);

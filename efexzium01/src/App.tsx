@@ -4,8 +4,8 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import HamburgerMenu from './HamburgerMenu';
-import LightSpeedBackground from './LightSpeedBackground';
+import HamburgerMenu from './AIChat/Menu/HamburgerMenu';
+import LightSpeedBackground from './Backgrounds/LightSpeedBackground';
 import './index.css';
 
 // Import translations
@@ -29,14 +29,14 @@ i18n
   });
 
 // Lazy load components
-const MainChatUI = lazy(() => import('./MainChatUI'));
-const AboutUs = lazy(() => import('./AboutUs'));
-const ServicesPage = lazy(() => import('./ServicesPage'));
-const ContactUsPage = lazy(() => import('./ContactUsPage'));
-const LoginPage = lazy(() => import('./loginPage'));
-const SettingsPage = lazy(() => import('./settingsPage'));
-const Plans = lazy(() => import('./PlansPage'));
-const LedLandingPage = lazy(() => import('./LedLandingPage'));
+const MainChatUI = lazy(() => import('./AIChat/AIChatUI/MainChatUI'));
+const AboutUs = lazy(() => import('./AIChat/Menu/AboutUs'));
+const ServicesPage = lazy(() => import('./AIChat/Menu/ServicesPage'));
+const ContactUsPage = lazy(() => import('./AIChat/Menu/ContactUsPage'));
+const LoginPage = lazy(() => import('./AIChat/Menu/loginPage'));
+const SettingsPage = lazy(() => import('./AIChat/AISettings/settingsPage'));
+// const Plans = lazy(() => import('./AIChat/PlansPage'));
+const LedLandingPage = lazy(() => import('./lEDLandingPageFolder/LedLandingPage'));
 
 // Define types for Loading Wrapper props
 interface LoadingWrapperProps {
@@ -82,7 +82,7 @@ const App: React.FC = () => {
                   <Route path="/services" element={<ServicesPage />} />
                   <Route path="/contact" element={<ContactUsPage />} />
                   <Route path="/settings" element={<SettingsPage />} />
-                  <Route path="/plans" element={<Plans />} />
+                  {/* <Route path="/plans" element={<Plans />} /> */}
                 </Routes>
               </main>
             </LoadingWrapper>

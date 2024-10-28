@@ -10,18 +10,18 @@
       "Plans":"Planes"
     },
     "mainMessage": {
-      "appFeatures": "Características de la aplicación:",
-      "feature1": "1. Establece metas, obtén consejos personalizados por IA",
-      "feature2": "2. Mantén el enfoque, evita distracciones",
-      "feature3": "3. Búsquedas en internet impulsadas por IA",
-      "feature4": "4. Música personalizada por IA para anuncios",
-      "feature5": "5. Información impulsada por IA en todo momento",
-      "benefits": "Beneficios:",
-      "benefit1": "• Gestión de metas personalizada",
-      "benefit2": "• Enfoque eficiente",
-      "benefit3": "• Búsquedas inteligentes en internet",
-      "benefit4": "• Soluciones musicales a medida",
-      "benefit5": "• Soporte continuo de IA"
+      "appFeatures": "\n Características de la aplicación: \n",
+      "feature1": "1. Establece metas, obtén consejos personalizados por IA \n",
+      "feature2": "2. Mantén el enfoque, evita distracciones \n",
+      "feature3": "3. Búsquedas en internet impulsadas por IA \n",
+      "feature4": "4. Música personalizada por IA para anuncios \n",
+      "feature5": "5. Información impulsada por IA en todo momento \n",
+      "benefits": "\n Beneficios: \n",
+      "benefit1": "• Gestión de metas personalizada \n",
+      "benefit2": "• Enfoque eficiente \n",
+      "benefit3": "• Búsquedas inteligentes en internet \n",
+      "benefit4": "• Soluciones musicales a medida \n",
+      "benefit5": "• Soporte continuo de IA \n"
     }
     ,
     "aboutUs": {

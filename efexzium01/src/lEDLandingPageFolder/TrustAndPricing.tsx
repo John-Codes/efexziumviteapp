@@ -1,10 +1,9 @@
-
 import { Medal, Check, Star, Clock, Users, BadgeCheck } from 'lucide-react';
 
 export default function TrustAndPricing() {
   const pricingPlan = {
     name: "Daily Rental",
-    price: "$2",
+    price: "$20",
     period: "day",
     features: [
       "RGB LED Display",
@@ -114,9 +113,14 @@ export default function TrustAndPricing() {
                 ))}
               </ul>
 
-              <button className="w-full py-5 rounded-full text-white text-lg font-semibold transition-all bg-gradient-to-r from-red-600 to-red-500 hover:shadow-lg hover:shadow-red-500/20">
+              <a 
+                href="https://www.paypal.com/ncp/payment/4Y3EVTGZ4HZNA"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full py-5 rounded-full text-white text-lg font-semibold transition-all bg-gradient-to-r from-red-600 to-red-500 hover:shadow-lg hover:shadow-red-500/20 text-center"
+              >
                 Secure Your Spot Now
-              </button>
+              </a>
             </div>
           </div>
         </div>
