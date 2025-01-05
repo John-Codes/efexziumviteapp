@@ -41,6 +41,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ header }) => {
         <nav className={`menu ${isOpen ? 'open' : ''}`}>
           <NavLink to="/" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.home')}</NavLink>
           <NavLink to="/led" className="menu-item" onClick={() => setIsOpen(false)}>LED Signs</NavLink>
+          <NavLink to="/ai-video" className="menu-item" onClick={() => setIsOpen(false)}>AI Video</NavLink>
           <NavLink to="/Login" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.login')}</NavLink>
           <NavLink to="/about" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.about')}</NavLink>
           <NavLink to="/services" className="menu-item" onClick={() => setIsOpen(false)}>{t('menu.services')}</NavLink>

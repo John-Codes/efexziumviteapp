@@ -2,8 +2,8 @@ import React, { useState, useEffect, lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import LoadingIndicator from './LoadingIndicator ';
-
-import InterstellarBackground from '../../Backgrounds/InterstellarBackground';
+import NoStarBackground from '../../Backgrounds/NoStarBackground';
+// import InterstellarBackground from '../../Backgrounds/InterstellarBackground';
 
 const MessageViewArea = lazy(() => import("./MessageViewArea"));
 const MessageInput = lazy(() => import("./MessageInputBox/MessageInput"));
@@ -363,7 +363,9 @@ ${t('mainMessage.benefit5')}`,
   return (
     <div className="main-chat-container relative">
       {/* <Suspense fallback={<LightSpeedBackground />}> */}
-        <InterstellarBackground />
+      { /* <InterstellarBackground/> 
+       */}
+       <NoStarBackground/>
         <main className="chat-content">
           <MessageViewArea 
             messages={messages} 

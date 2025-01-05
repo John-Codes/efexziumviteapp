@@ -35,6 +35,7 @@ const ServicesPage = lazy(() => import('./AIChat/Menu/ServicesPage'));
 const ContactUsPage = lazy(() => import('./AIChat/Menu/ContactUsPage'));
 const LoginPage = lazy(() => import('./AIChat/Menu/loginPage'));
 const SettingsPage = lazy(() => import('./AIChat/AISettings/settingsPage'));
+const AIVideo = lazy(() => import('./videoTools/VideoGenerator/aivideoscript'));
 // const Plans = lazy(() => import('./AIChat/PlansPage'));
 const LedLandingPage = lazy(() => import('./lEDLandingPageFolder/LedLandingPage'));
 
@@ -82,6 +83,7 @@ const App: React.FC = () => {
                   <Route path="/services" element={<ServicesPage />} />
                   <Route path="/contact" element={<ContactUsPage />} />
                   <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/ai-video" element={<AIVideo />} />
                   {/* <Route path="/plans" element={<Plans />} /> */}
                 </Routes>
               </main>
@@ -98,5 +100,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-
